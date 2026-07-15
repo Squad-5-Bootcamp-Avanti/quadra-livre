@@ -28,7 +28,7 @@ Este repositório contém a **fundação do backend**, já pronta para o time co
 | Carol | CRUD de Jogadores (`player.controller.js`, `player.service.js`, `player.repository.js`, `player.routes.js`) |
 | Desire | CRUD de Quadras (`court.controller.js`, `court.service.js`, `court.repository.js`, `court.routes.js`) |
 | Lili + Colega 5 (dupla) | CRUD de Reservas + regra de conflito de horário (`reservation.controller.js`, `reservation.service.js`, `reservation.repository.js`, `reservation.routes.js`) |
-| Colega 5 | Testes (Postman/Insomnia) + README final do projeto |
+| Colega 6 | Testes (Postman/Insomnia) + README final do projeto |
 
 ---
 
