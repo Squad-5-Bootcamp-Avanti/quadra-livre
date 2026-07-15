@@ -1,0 +1,3 @@
+# Esta pasta é o lugar onde vai o arquivo de controllers de cada entidade
+# (players, courts, reservations), conforme cada colega for
+# implementando seu CRUD. Ex.: player.controller.js

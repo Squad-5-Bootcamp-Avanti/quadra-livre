@@ -1,0 +1,87 @@
+// Prisma Schema — Sistema de Agendamento de Quadras Esportivas
+// Documentação: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────
+// ENUM: modalidades esportivas suportadas
+// ─────────────────────────────────────────────
+enum SportType {
+  SOCCER
+  FUTSAL
+  VOLLEYBALL
+  BASKETBALL
+  TENNIS
+  BEACH_TENNIS
+  OTHER
+}
+
+// ─────────────────────────────────────────────
+// MODEL: Player (Jogador)
+// ─────────────────────────────────────────────
+model Player {
+  id    String @id @default(uuid())
+  name  String
+  email String @unique
+  phone String
+
+  reservations Reservation[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("players")
+}
+
+// ─────────────────────────────────────────────
+// MODEL: Court (Quadra)
+// ─────────────────────────────────────────────
+model Court {
+  id       String    @id @default(uuid())
+  name     String
+  sport    SportType
+  location String
+
+  reservations Reservation[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("courts")
+}
+
+// ─────────────────────────────────────────────
+// MODEL: Reservation (Reserva)
+// Entidade associativa entre Player e Court.
+// A regra de conflito de horário é validada na
+// camada de Service (não no schema), consultando
+// reservas pela combinação courtId + date.
+// ─────────────────────────────────────────────
+model Reservation {
+  id String @id @default(uuid())
+
+  playerId String @map("player_id")
+  courtId  String @map("court_id")
+
+  date      DateTime @db.Date
+  startTime DateTime @db.Time @map("start_time")
+  endTime   DateTime @db.Time @map("end_time")
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  court  Court  @relation(fields: [courtId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Índice composto: acelera a query de checagem de
+  // conflito, que sempre filtra por quadra + data.
+  @@index([courtId, date])
+  @@map("reservations")
+}
