@@ -4,7 +4,7 @@ Projeto em equipe — Sistema de Agendamento de Quadras Esportivas.
 
 Este repositório contém a **fundação do backend**, já pronta para o time começar a codar em paralelo: estrutura de pastas, conexão com PostgreSQL via Prisma, migration inicial aplicada, e o servidor Express básico no ar.
 
-**Responsável pelo setup:** Fernanda (Tech Lead)
+
 
 ---
 
@@ -20,7 +20,7 @@ Este repositório contém a **fundação do backend**, já pronta para o time co
   - Classe de erro padronizada (`ApiError`) e helper de resposta padronizada (`httpResponse.js`)
 - [x] Script de seed (`prisma/seed.js`) com dados fictícios de exemplo
 
-## 🚧 O que falta (dividido entre o time)
+## 🚧 Divisão das tarefas entre o time
 
 | Responsável | Tarefa |
 |---|---|
