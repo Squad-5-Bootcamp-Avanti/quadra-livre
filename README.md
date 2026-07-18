@@ -4,7 +4,7 @@ Projeto em equipe — Sistema de Agendamento de Quadras Esportivas.
 
 Este repositório contém a **fundação do backend**, já pronta para o time começar a codar em paralelo: estrutura de pastas, conexão com PostgreSQL via Prisma, migration inicial aplicada, e o servidor Express básico no ar.
 
-**Responsável pelo setup:** Fernanda (Tech Lead)
+
 
 ---
 
@@ -20,14 +20,15 @@ Este repositório contém a **fundação do backend**, já pronta para o time co
   - Classe de erro padronizada (`ApiError`) e helper de resposta padronizada (`httpResponse.js`)
 - [x] Script de seed (`prisma/seed.js`) com dados fictícios de exemplo
 
-## 🚧 O que falta (dividido entre o time)
+## 🚧 Divisão das tarefas entre a equipe
 
 | Responsável | Tarefa |
 |---|---|
-| Colega 2 | CRUD de Jogadores (`player.controller.js`, `player.service.js`, `player.repository.js`, `player.routes.js`) |
-| Colega 3 | CRUD de Quadras (`court.controller.js`, `court.service.js`, `court.repository.js`, `court.routes.js`) |
-| Colega 4 (dupla) | CRUD de Reservas + regra de conflito de horário (`reservation.controller.js`, `reservation.service.js`, `reservation.repository.js`, `reservation.routes.js`) |
-| Colega 5 | Testes (Postman/Insomnia) + README final do projeto |
+| Fernanda | Tech Lead / Setup: estrutura do projeto, conexão do Prisma ao PostgreSQL, migration inicial e servidor Express básico (`schema.prisma`, `database.js`, `server.js`, `errorHandler.middleware.js`, `validate.middleware.js`, `ApiError.js`, `asyncHandler.js`, `httpResponse.js`) ||
+| Carol | CRUD de Jogadores (`player.controller.js`, `player.service.js`, `player.repository.js`, `player.routes.js`) |
+| Desire | CRUD de Quadras (`court.controller.js`, `court.service.js`, `court.repository.js`, `court.routes.js`) |
+| Lili + Diego (dupla) | CRUD de Reservas + regra de conflito de horário (`reservation.controller.js`, `reservation.service.js`, `reservation.repository.js`, `reservation.routes.js`) |
+| Pedro Giffoni | Testes (Postman/Insomnia) + README final do projeto |
 
 ---
 
