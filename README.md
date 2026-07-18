@@ -27,8 +27,8 @@ Este repositório contém a **fundação do backend**, já pronta para o time co
 | Fernanda | Tech Lead / Setup: estrutura do projeto, conexão do Prisma ao PostgreSQL, migration inicial e servidor Express básico (`schema.prisma`, `database.js`, `server.js`, `errorHandler.middleware.js`, `validate.middleware.js`, `ApiError.js`, `asyncHandler.js`, `httpResponse.js`) ||
 | Carol | CRUD de Jogadores (`player.controller.js`, `player.service.js`, `player.repository.js`, `player.routes.js`) |
 | Desire | CRUD de Quadras (`court.controller.js`, `court.service.js`, `court.repository.js`, `court.routes.js`) |
-| Lili + Colega 5 (dupla) | CRUD de Reservas + regra de conflito de horário (`reservation.controller.js`, `reservation.service.js`, `reservation.repository.js`, `reservation.routes.js`) |
-| Colega 6 | Testes (Postman/Insomnia) + README final do projeto |
+| Lili + Diego (dupla) | CRUD de Reservas + regra de conflito de horário (`reservation.controller.js`, `reservation.service.js`, `reservation.repository.js`, `reservation.routes.js`) |
+| Pedro Giffoni | Testes (Postman/Insomnia) + README final do projeto |
 
 ---
 
