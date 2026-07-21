@@ -16,7 +16,13 @@
   "prisma": {
     "seed": "node prisma/seed.js"
   },
-  "keywords": ["quadras", "agendamento", "express", "prisma", "postgresql"],
+  "keywords": [
+    "quadras",
+    "agendamento",
+    "express",
+    "prisma",
+    "postgresql"
+  ],
   "author": "Fernanda",
   "license": "MIT",
   "dependencies": {
@@ -30,5 +36,10 @@
   "devDependencies": {
     "nodemon": "^3.1.7",
     "prisma": "^5.20.0"
+  },
+  "allowScripts": {
+    "@prisma/client@5.22.0": true,
+    "@prisma/engines@5.22.0": true,
+    "prisma@5.22.0": true
   }
 }
