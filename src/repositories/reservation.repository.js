@@ -58,4 +58,5 @@ module.exports = {
   findById,
   update,
   delete: deleteReservation,
+  findConflicts,
 };
