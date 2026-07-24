@@ -6,8 +6,9 @@ async function create(data) {
   });
 }
 
-async function findAll() {
+async function findAll(filters = {}) {
   return prisma.reservation.findMany({
+    where: filters,
     include: {
       player: true,
       court: true,
