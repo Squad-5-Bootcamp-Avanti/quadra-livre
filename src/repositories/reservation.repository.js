@@ -38,6 +38,20 @@ async function deleteReservation(id) {
   });
 }
 
+async function findConflicts({ courtId, date, startTime, endTime, excludeId }) {
+  prisma.reservation.findMany({
+    where: {
+      courtId,
+      date,
+      ...arguments(excludeId && { id: { not: excludeId } }),
+      AND: [
+        { startTime: { lt: endTime } },
+        { endTime: { gt: startTime } },
+      ],
+    },
+  });
+}
+
 module.exports = {
   create,
   findAll,
