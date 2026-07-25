@@ -4,8 +4,6 @@ Projeto em equipe — Sistema de Agendamento de Quadras Esportivas.
 
 Este repositório contém a **fundação do backend**, já pronta para o time começar a codar em paralelo: estrutura de pastas, conexão com PostgreSQL via Prisma, migration inicial aplicada, e o servidor Express básico no ar.
 
-
-
 ---
 
 ## ✅ O que já está pronto
@@ -22,13 +20,13 @@ Este repositório contém a **fundação do backend**, já pronta para o time co
 
 ## 🚧 Divisão das tarefas entre a equipe
 
-| Responsável | Tarefa |
-|---|---|
-| Fernanda | Tech Lead / Setup: estrutura do projeto, conexão do Prisma ao PostgreSQL, migration inicial e servidor Express básico (`schema.prisma`, `database.js`, `server.js`, `errorHandler.middleware.js`, `validate.middleware.js`, `ApiError.js`, `asyncHandler.js`, `httpResponse.js`) ||
-| Carol | CRUD de Jogadores (`player.controller.js`, `player.service.js`, `player.repository.js`, `player.routes.js`) |
-| Desire | CRUD de Quadras (`court.controller.js`, `court.service.js`, `court.repository.js`, `court.routes.js`) |
-| Lili + Diego (dupla) | CRUD de Reservas + regra de conflito de horário (`reservation.controller.js`, `reservation.service.js`, `reservation.repository.js`, `reservation.routes.js`) |
-| Pedro Giffoni | Testes (Postman/Insomnia) + README final do projeto |
+| Responsável          | Tarefa                                                                                                                                                                                                                                                                           |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
+| Fernanda             | Tech Lead / Setup: estrutura do projeto, conexão do Prisma ao PostgreSQL, migration inicial e servidor Express básico (`schema.prisma`, `database.js`, `server.js`, `errorHandler.middleware.js`, `validate.middleware.js`, `ApiError.js`, `asyncHandler.js`, `httpResponse.js`) |     |
+| Carol                | CRUD de Jogadores (`player.controller.js`, `player.service.js`, `player.repository.js`, `player.routes.js`)                                                                                                                                                                      |
+| Desire               | CRUD de Quadras (`court.controller.js`, `court.service.js`, `court.repository.js`, `court.routes.js`)                                                                                                                                                                            |
+| Lili + Diego (dupla) | CRUD de Reservas + regra de conflito de horário (`reservation.controller.js`, `reservation.service.js`, `reservation.repository.js`, `reservation.routes.js`)                                                                                                                    |
+| Pedro Giffoni        | Testes (Postman/Insomnia) + README final do projeto                                                                                                                                                                                                                              |
 
 ---
 
@@ -45,8 +43,9 @@ Requisição HTTP → Controller → Service → Repository → Prisma → Postg
 Cada rota de CRUD deve seguir o padrão já usado no `routes/index.js` (ver comentários no próprio arquivo) — crie seu arquivo `<entidade>.routes.js` em `src/routes/`, importe e registre lá.
 
 Use `asyncHandler` (em `src/utils/asyncHandler.js`) em todo Controller assíncrono, para não precisar repetir `try/catch`:
+
 ```js
-const asyncHandler = require('../utils/asyncHandler');
+const asyncHandler = require("../utils/asyncHandler");
 
 exports.list = asyncHandler(async (req, res) => {
   // ...
@@ -54,11 +53,15 @@ exports.list = asyncHandler(async (req, res) => {
 ```
 
 Use `ApiError` (em `src/utils/ApiError.js`) para erros de negócio:
-```js
-const ApiError = require('../utils/ApiError');
 
-throw ApiError.notFound('Jogador não encontrado.');
-throw ApiError.conflict('Já existe uma reserva para esta quadra neste horário.', 'RESERVATION_CONFLICT');
+```js
+const ApiError = require("../utils/ApiError");
+
+throw ApiError.notFound("Jogador não encontrado.");
+throw ApiError.conflict(
+  "Já existe uma reserva para esta quadra neste horário.",
+  "RESERVATION_CONFLICT",
+);
 ```
 
 ---
@@ -97,6 +100,7 @@ backend/
 ## 🚀 Como rodar localmente
 
 ### Pré-requisitos
+
 - Node.js 18+
 - PostgreSQL instalado e rodando
 
@@ -109,6 +113,7 @@ cp .env.example .env
 ```
 
 Edite o `.env` com sua conexão real:
+
 ```env
 DATABASE_URL="postgresql://postgres:SUA_SENHA@localhost:5432/quadra_livre?schema=public"
 PORT=3333
@@ -116,22 +121,26 @@ NODE_ENV=development
 ```
 
 Crie o banco (se ainda não existir):
+
 ```sql
 CREATE DATABASE quadra_livre;
 ```
 
 Instale as dependências e rode a migration:
+
 ```bash
 npm install
 npx prisma migrate dev --name init
 ```
 
 (Opcional) Popule com dados de exemplo:
+
 ```bash
 npx prisma db seed
 ```
 
 Suba o servidor:
+
 ```bash
 npm run dev
 ```
@@ -140,14 +149,14 @@ Teste em `http://localhost:3333/api/health`.
 
 ### Scripts disponíveis
 
-| Comando | Descrição |
-|---|---|
-| `npm run dev` | Inicia com hot-reload (nodemon) |
-| `npm start` | Inicia em modo produção |
-| `npm run prisma:generate` | Gera o Prisma Client |
-| `npm run prisma:migrate` | Roda migrations em desenvolvimento |
-| `npm run prisma:studio` | Abre o Prisma Studio (interface visual do banco) |
-| `npm run prisma:seed` | Popula o banco com dados de exemplo |
+| Comando                   | Descrição                                        |
+| ------------------------- | ------------------------------------------------ |
+| `npm run dev`             | Inicia com hot-reload (nodemon)                  |
+| `npm start`               | Inicia em modo produção                          |
+| `npm run prisma:generate` | Gera o Prisma Client                             |
+| `npm run prisma:migrate`  | Roda migrations em desenvolvimento               |
+| `npm run prisma:studio`   | Abre o Prisma Studio (interface visual do banco) |
+| `npm run prisma:seed`     | Popula o banco com dados de exemplo              |
 
 ---
 
