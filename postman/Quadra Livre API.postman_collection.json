@@ -1,0 +1,2104 @@
+{
+  "info": {
+    "_postman_id": "83ac6327-9c7b-4800-8580-fca4f21956b0",
+    "name": "Quadra Livre API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54043112"
+  },
+  "item": [
+    {
+      "name": "01 - Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Resposta em JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Campo success\", function () {\r",
+                  "    pm.expect(body.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Campo message\", function () {\r",
+                  "    pm.expect(body).to.have.property(\"message\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/api/health",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "health"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "02 - Players",
+      "item": [
+        {
+          "name": "Create Players",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Resposta em JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Jogador criado\", function () {\r",
+                  "    pm.expect(body.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Possui ID\", function () {\r",
+                  "    pm.expect(body.data).to.have.property(\"id\");\r",
+                  "});\r",
+                  "\r",
+                  "// Salva o ID para reutilizar nas próximas requisições\r",
+                  "pm.collectionVariables.set(\"playerId\", body.data.id);\r",
+                  "\r",
+                  "console.log(\"Player ID:\", body.data.id);\r",
+                  "\r",
+                  "pm.collectionVariables.set(\"playerEmail\", body.data.email);\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "name": "cache-control",
+                "sortOrder": 2,
+                "infoTitle": "We recommend using this header",
+                "info": "Postman added \"Cache-Control: no-cache\" as a precautionary measure to prevent the server from returning stale response when one makes repeated requests.\n\nYou can remove this header in the app settings or enter a new one with a different value.",
+                "allowedToToggle": false,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to settings",
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "postman-token",
+                "sortOrder": 3,
+                "infoTitle": "We recommend using this header",
+                "info": "The Postman-Token header appends a random UUID to every outgoing request. Postman adds this header for API developers to better debug requests sent and to ensure separate requests appear distinct to the receiving server.\n\nYou can remove this header in the app settings.",
+                "allowedToToggle": false,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to settings",
+                "key": "Postman-Token",
+                "value": "<calculated when request is sent>",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "content-length",
+                "sortOrder": 5,
+                "infoTitle": "This header was automatically added",
+                "info": "The Content-Length header was added to indicate to the server the size of the request body that is added to this request. Server uses this value to parse the request body accurately.\n\nYou can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to body",
+                "key": "Content-Length",
+                "value": "0",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "host",
+                "sortOrder": 6,
+                "infoTitle": "We recommend using this header",
+                "info": "The Host header is added to identify the domain name for which a request is being sent to the server. This header is implicitly sent by every HTTP client.\n\nYou can remove the header or enter a new one with a different value. It is most likely that without this header, your request will return an HTTP 400 error.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Host",
+                "value": "<calculated when request is sent>",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "user-agent",
+                "sortOrder": 7,
+                "infoTitle": "We recommend using this header",
+                "info": "The User-Agent header is added to help the server identify Postman as the HTTP requesting application or client.\n\nIt is recommended that this header be sent, but you can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "accept",
+                "sortOrder": 8,
+                "infoTitle": "We recommend using this header",
+                "info": "The \"Accept: */*\" header is added to tell the server that Postman can understand and process all forms of response content types.\n\nIt is recommended that this header be sent, but you can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Accept",
+                "value": "*/*",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "accept-encoding",
+                "sortOrder": 9,
+                "infoTitle": "We recommend using this header",
+                "info": "The Accept-Encoding header is added to indicate to the server that Postman HTTP client supports a defined list of content-encoding or compression algorithms as response.\n\nYou can remove the header or enter a new one with a different value. Doing that may not accurately render the response within the app.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "connection",
+                "sortOrder": 10,
+                "infoTitle": "We recommend using this header",
+                "info": "Postman added the Connection header to indicate the server to keep the underlying network connection open once the current response is received. This allows Postman to reuse the same connection for faster response times in subsequent requests to the same server.\n\nYou can remove this header or enter a new one with a different value, such as `Connection: Close` to control this behaviour.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "id": 0
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Pedro Giffoni1221w1\",\r\n    \"email\": \"pedro.giffoni.{{$timestamp}}@teste.com\",\r\n    \"phone\": \"(85)98799-9129\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3333/api/players",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "players"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Player By ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Request was successful\", function () {\r",
+                  "    pm.expect(body.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Player has an ID\", function () {\r",
+                  "    pm.expect(body.data).to.have.property(\"id\");\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "pm.test(\"Player has required fields\", function () {\r",
+                  "    pm.expect(body.data).to.have.property(\"name\");\r",
+                  "    pm.expect(body.data).to.have.property(\"email\");\r",
+                  "    pm.expect(body.data).to.have.property(\"phone\");\r",
+                  "});\r",
+                  "\r",
+                  "const requestedId = pm.request.url.path[2];\r",
+                  "\r",
+                  "pm.test(\"Returned ID matches requested ID\", function () {\r",
+                  "    pm.expect(body.data.id).to.eql(requestedId);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/api/players/{{playerId}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "players",
+                "{{playerId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Players",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Request was successful\", function () {\r",
+                  "    pm.expect(body.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Data is an array\", function () {\r",
+                  "    pm.expect(body.data).to.be.an(\"array\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Players list is not empty\", function () {\r",
+                  "    pm.expect(body.data.length).to.be.above(0);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Players have required fields\", function () {\r",
+                  "    body.data.forEach(function (player) {\r",
+                  "        pm.expect(player).to.have.property(\"id\");\r",
+                  "        pm.expect(player).to.have.property(\"name\");\r",
+                  "        pm.expect(player).to.have.property(\"email\");\r",
+                  "        pm.expect(player).to.have.property(\"phone\");\r",
+                  "    });\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/api/players",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "players"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Player",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "const requestBody = JSON.parse(pm.request.body.raw);\r",
+                  "\r",
+                  "pm.test(\"Request was successful\", function () {\r",
+                  "    pm.expect(body.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Player updated successfully\", function () {\r",
+                  "    pm.expect(body.message).to.include(\"atualizado\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Returned player has a valid ID\", function () {\r",
+                  "    pm.expect(body.data).to.have.property(\"id\");\r",
+                  "    pm.expect(body.data.id).to.be.a(\"string\");\r",
+                  "    pm.expect(body.data.id).to.not.be.empty;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Player name was updated\", function () {\r",
+                  "    pm.expect(body.data.name).to.eql(requestBody.name);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Phone was updated\", function () {\r",
+                  "    pm.expect(body.data.phone).to.eql(requestBody.phone);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Player has required fields\", function () {\r",
+                  "    pm.expect(body.data).to.have.property(\"id\");\r",
+                  "    pm.expect(body.data).to.have.property(\"name\");\r",
+                  "    pm.expect(body.data).to.have.property(\"email\");\r",
+                  "    pm.expect(body.data).to.have.property(\"phone\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.globals.set(\"playerId\", body.data.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "name": "cache-control",
+                "sortOrder": 2,
+                "infoTitle": "We recommend using this header",
+                "info": "Postman added \"Cache-Control: no-cache\" as a precautionary measure to prevent the server from returning stale response when one makes repeated requests.\n\nYou can remove this header in the app settings or enter a new one with a different value.",
+                "allowedToToggle": false,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to settings",
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "postman-token",
+                "sortOrder": 3,
+                "infoTitle": "We recommend using this header",
+                "info": "The Postman-Token header appends a random UUID to every outgoing request. Postman adds this header for API developers to better debug requests sent and to ensure separate requests appear distinct to the receiving server.\n\nYou can remove this header in the app settings.",
+                "allowedToToggle": false,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to settings",
+                "key": "Postman-Token",
+                "value": "<calculated when request is sent>",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "host",
+                "sortOrder": 6,
+                "infoTitle": "We recommend using this header",
+                "info": "The Host header is added to identify the domain name for which a request is being sent to the server. This header is implicitly sent by every HTTP client.\n\nYou can remove the header or enter a new one with a different value. It is most likely that without this header, your request will return an HTTP 400 error.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Host",
+                "value": "<calculated when request is sent>",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "user-agent",
+                "sortOrder": 7,
+                "infoTitle": "We recommend using this header",
+                "info": "The User-Agent header is added to help the server identify Postman as the HTTP requesting application or client.\n\nIt is recommended that this header be sent, but you can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "accept",
+                "sortOrder": 8,
+                "infoTitle": "We recommend using this header",
+                "info": "The \"Accept: */*\" header is added to tell the server that Postman can understand and process all forms of response content types.\n\nIt is recommended that this header be sent, but you can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Accept",
+                "value": "*/*",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "accept-encoding",
+                "sortOrder": 9,
+                "infoTitle": "We recommend using this header",
+                "info": "The Accept-Encoding header is added to indicate to the server that Postman HTTP client supports a defined list of content-encoding or compression algorithms as response.\n\nYou can remove the header or enter a new one with a different value. Doing that may not accurately render the response within the app.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "connection",
+                "sortOrder": 10,
+                "infoTitle": "We recommend using this header",
+                "info": "Postman added the Connection header to indicate the server to keep the underlying network connection open once the current response is received. This allows Postman to reuse the same connection for faster response times in subsequent requests to the same server.\n\nYou can remove this header or enter a new one with a different value, such as `Connection: Close` to control this behaviour.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "id": 0
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Pedro Giffoni Updated\",\r\n    \"email\": \"pedro.updated.{{$timestamp}}@teste.com\",\r\n    \"phone\": \"(85)98888-8888\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3333/api/players/{{playerId}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "players",
+                "{{playerId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Player",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Request was successful\", function () {\r",
+                  "    pm.expect(body.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Player was deleted\", function () {\r",
+                  "    pm.expect(body.message).to.include(\"removido\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/api/players/{{playerId}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "players",
+                "{{playerId}}"
+              ],
+              "query": [
+                {
+                  "key": "",
+                  "value": "",
+                  "id": 0,
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Player Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Request was not successful\", function () {\r",
+                  "    pm.expect(body.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Error message is present\", function () {\r",
+                  "    pm.expect(body).to.have.property(\"error\");\r",
+                  "    pm.expect(body.error).to.have.property(\"message\");\r",
+                  "    pm.expect(body.error.message).to.be.a(\"string\");\r",
+                  "    pm.expect(body.error.message).to.not.be.empty;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Player was not found\", function () {\r",
+                  "    pm.expect(body.error.message.toLowerCase()).to.include(\"jogador\");\r",
+                  "    pm.expect(body.error.message.toLowerCase()).to.include(\"encontrado\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/api/players/wefewagrfaewrgfaergaerg",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "players",
+                "wefewagrfaewrgfaergaerg"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Player - Duplicate Email",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 409\", function () {\r",
+                  "    pm.response.to.have.status(409);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Request was not successful\", function () {\r",
+                  "    pm.expect(body.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Error object is present\", function () {\r",
+                  "    pm.expect(body).to.have.property(\"error\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Error message is present\", function () {\r",
+                  "    pm.expect(body.error).to.have.property(\"message\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Email conflict was detected\", function () {\r",
+                  "    const message = body.error.message.toLowerCase();\r",
+                  "\r",
+                  "    pm.expect(\r",
+                  "        message.includes(\"email\") ||\r",
+                  "        message.includes(\"e-mail\") ||\r",
+                  "        message.includes(\"cadastrado\") ||\r",
+                  "        message.includes(\"uso\")\r",
+                  "    ).to.eql(true);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Duplicate Player\",\r\n    \"email\": \"{{playerEmail}}\",\r\n    \"phone\": \"(85)97777-7777\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3333/api/players",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "players"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Player - Invalid Data",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 400 or 422\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Request was not successful\", function () {\r",
+                  "    pm.expect(body.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Validation error is present\", function () {\r",
+                  "    pm.expect(body).to.have.property(\"error\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Validation details are present\", function () {\r",
+                  "    pm.expect(body.error).to.exist;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"email-invalido\",\r\n    \"phone\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3333/api/players",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "players"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "03 - Courts",
+      "item": [
+        {
+          "name": "Create Court",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Court was created\", function () {\r",
+                  "    pm.expect(body.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Court has an ID\", function () {\r",
+                  "    pm.expect(body.data).to.have.property(\"id\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Court has required fields\", function () {\r",
+                  "    pm.expect(body.data).to.have.property(\"name\");\r",
+                  "    pm.expect(body.data).to.have.property(\"sport\");\r",
+                  "    pm.expect(body.data).to.have.property(\"location\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.globals.set(\"courtId\", body.data.id);\r",
+                  "\r",
+                  "console.log(\"Court ID salvo:\", pm.globals.get(\"courtId\"));"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "name": "cache-control",
+                "sortOrder": 2,
+                "infoTitle": "We recommend using this header",
+                "info": "Postman added \"Cache-Control: no-cache\" as a precautionary measure to prevent the server from returning stale response when one makes repeated requests.\n\nYou can remove this header in the app settings or enter a new one with a different value.",
+                "allowedToToggle": false,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to settings",
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "postman-token",
+                "sortOrder": 3,
+                "infoTitle": "We recommend using this header",
+                "info": "The Postman-Token header appends a random UUID to every outgoing request. Postman adds this header for API developers to better debug requests sent and to ensure separate requests appear distinct to the receiving server.\n\nYou can remove this header in the app settings.",
+                "allowedToToggle": false,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to settings",
+                "key": "Postman-Token",
+                "value": "<calculated when request is sent>",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "content-type",
+                "sortOrder": 4,
+                "infoTitle": "This header was automatically added",
+                "info": "The Content-Type header is added to help the server identify the media type of the request body that is present in this request.\n\nUse the request body tab to control the value or to remove this header.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to body",
+                "key": "Content-Type",
+                "value": "application/json",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "content-length",
+                "sortOrder": 5,
+                "infoTitle": "This header was automatically added",
+                "info": "The Content-Length header was added to indicate to the server the size of the request body that is added to this request. Server uses this value to parse the request body accurately.\n\nYou can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to body",
+                "key": "Content-Length",
+                "value": "<calculated when request is sent>",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "host",
+                "sortOrder": 6,
+                "infoTitle": "We recommend using this header",
+                "info": "The Host header is added to identify the domain name for which a request is being sent to the server. This header is implicitly sent by every HTTP client.\n\nYou can remove the header or enter a new one with a different value. It is most likely that without this header, your request will return an HTTP 400 error.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Host",
+                "value": "<calculated when request is sent>",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "user-agent",
+                "sortOrder": 7,
+                "infoTitle": "We recommend using this header",
+                "info": "The User-Agent header is added to help the server identify Postman as the HTTP requesting application or client.\n\nIt is recommended that this header be sent, but you can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "accept",
+                "sortOrder": 8,
+                "infoTitle": "We recommend using this header",
+                "info": "The \"Accept: */*\" header is added to tell the server that Postman can understand and process all forms of response content types.\n\nIt is recommended that this header be sent, but you can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Accept",
+                "value": "*/*",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "accept-encoding",
+                "sortOrder": 9,
+                "infoTitle": "We recommend using this header",
+                "info": "The Accept-Encoding header is added to indicate to the server that Postman HTTP client supports a defined list of content-encoding or compression algorithms as response.\n\nYou can remove the header or enter a new one with a different value. Doing that may not accurately render the response within the app.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "connection",
+                "sortOrder": 10,
+                "infoTitle": "We recommend using this header",
+                "info": "Postman added the Connection header to indicate the server to keep the underlying network connection open once the current response is received. This allows Postman to reuse the same connection for faster response times in subsequent requests to the same server.\n\nYou can remove this header or enter a new one with a different value, such as `Connection: Close` to control this behaviour.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "id": 0
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Quadra 3\",\r\n    \"sport\": \"FUTSAL\",\r\n    \"location\": \"Rua Principal, 100\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3333/api/courts",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "courts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Court By ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Request was successful\", function () {\r",
+                  "    pm.expect(body.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Returned ID matches courtId\", function () {\r",
+                  "    pm.expect(body.data.id).to.eql(\r",
+                  "        pm.globals.get(\"courtId\")\r",
+                  "    );\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Court has required fields\", function () {\r",
+                  "    pm.expect(body.data).to.have.property(\"name\");\r",
+                  "    pm.expect(body.data).to.have.property(\"sport\");\r",
+                  "    pm.expect(body.data).to.have.property(\"location\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/api/courts/{{courtId}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "courts",
+                "{{courtId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Courts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Request was successful\", function () {\r",
+                  "    pm.expect(body.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Data is an array\", function () {\r",
+                  "    pm.expect(body.data).to.be.an(\"array\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Courts list is not empty\", function () {\r",
+                  "    pm.expect(body.data.length).to.be.above(0);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Courts have required fields\", function () {\r",
+                  "    body.data.forEach(function (court) {\r",
+                  "        pm.expect(court).to.have.property(\"id\");\r",
+                  "        pm.expect(court).to.have.property(\"name\");\r",
+                  "        pm.expect(court).to.have.property(\"sport\");\r",
+                  "        pm.expect(court).to.have.property(\"location\");\r",
+                  "    });\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/api/courts",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "courts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Court",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "const requestBody = JSON.parse(pm.request.body.raw);\r",
+                  "\r",
+                  "pm.test(\"Request was successful\", function () {\r",
+                  "    pm.expect(body.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Court updated successfully\", function () {\r",
+                  "    pm.expect(body.data).to.have.property(\"id\");\r",
+                  "    pm.expect(body.data.id).to.be.a(\"string\");\r",
+                  "    pm.expect(body.data.id).to.not.be.empty;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Court name was updated\", function () {\r",
+                  "    pm.expect(body.data.name).to.eql(requestBody.name);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Court sport was updated\", function () {\r",
+                  "    pm.expect(body.data.sport).to.eql(requestBody.sport);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Court location was updated\", function () {\r",
+                  "    pm.expect(body.data.location).to.eql(requestBody.location);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Court has required fields\", function () {\r",
+                  "    pm.expect(body.data).to.have.property(\"id\");\r",
+                  "    pm.expect(body.data).to.have.property(\"name\");\r",
+                  "    pm.expect(body.data).to.have.property(\"sport\");\r",
+                  "    pm.expect(body.data).to.have.property(\"location\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.globals.set(\"courtId\", body.data.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "name": "cache-control",
+                "sortOrder": 2,
+                "infoTitle": "We recommend using this header",
+                "info": "Postman added \"Cache-Control: no-cache\" as a precautionary measure to prevent the server from returning stale response when one makes repeated requests.\n\nYou can remove this header in the app settings or enter a new one with a different value.",
+                "allowedToToggle": false,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to settings",
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "postman-token",
+                "sortOrder": 3,
+                "infoTitle": "We recommend using this header",
+                "info": "The Postman-Token header appends a random UUID to every outgoing request. Postman adds this header for API developers to better debug requests sent and to ensure separate requests appear distinct to the receiving server.\n\nYou can remove this header in the app settings.",
+                "allowedToToggle": false,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to settings",
+                "key": "Postman-Token",
+                "value": "<calculated when request is sent>",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "content-length",
+                "sortOrder": 5,
+                "infoTitle": "This header was automatically added",
+                "info": "The Content-Length header was added to indicate to the server the size of the request body that is added to this request. Server uses this value to parse the request body accurately.\n\nYou can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to body",
+                "key": "Content-Length",
+                "value": "0",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "host",
+                "sortOrder": 6,
+                "infoTitle": "We recommend using this header",
+                "info": "The Host header is added to identify the domain name for which a request is being sent to the server. This header is implicitly sent by every HTTP client.\n\nYou can remove the header or enter a new one with a different value. It is most likely that without this header, your request will return an HTTP 400 error.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Host",
+                "value": "<calculated when request is sent>",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "user-agent",
+                "sortOrder": 7,
+                "infoTitle": "We recommend using this header",
+                "info": "The User-Agent header is added to help the server identify Postman as the HTTP requesting application or client.\n\nIt is recommended that this header be sent, but you can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "accept",
+                "sortOrder": 8,
+                "infoTitle": "We recommend using this header",
+                "info": "The \"Accept: */*\" header is added to tell the server that Postman can understand and process all forms of response content types.\n\nIt is recommended that this header be sent, but you can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Accept",
+                "value": "*/*",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "accept-encoding",
+                "sortOrder": 9,
+                "infoTitle": "We recommend using this header",
+                "info": "The Accept-Encoding header is added to indicate to the server that Postman HTTP client supports a defined list of content-encoding or compression algorithms as response.\n\nYou can remove the header or enter a new one with a different value. Doing that may not accurately render the response within the app.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "connection",
+                "sortOrder": 10,
+                "infoTitle": "We recommend using this header",
+                "info": "Postman added the Connection header to indicate the server to keep the underlying network connection open once the current response is received. This allows Postman to reuse the same connection for faster response times in subsequent requests to the same server.\n\nYou can remove this header or enter a new one with a different value, such as `Connection: Close` to control this behaviour.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "id": 0
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Quadra Central Updated\",\r\n    \"sport\": \"BEACH_TENNIS\",\r\n    \"location\": \"Avenida Beira-Mar, 500\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3333/api/courts/{{courtId}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "courts",
+                "{{courtId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Court",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Request was successful\", function () {\r",
+                  "    pm.expect(body.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Court was deleted\", function () {\r",
+                  "    pm.expect(body.message.toLowerCase()).to.include(\"remov\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/api/courts/{{courtId}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "courts",
+                "{{courtId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Court Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Request was not successful\", function () {\r",
+                  "    pm.expect(body.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Error object is present\", function () {\r",
+                  "    pm.expect(body).to.have.property(\"error\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Court was not found\", function () {\r",
+                  "    const message = body.error.message.toLowerCase();\r",
+                  "\r",
+                  "    pm.expect(\r",
+                  "        message.includes(\"quadra\") ||\r",
+                  "        message.includes(\"não encontrada\") ||\r",
+                  "        message.includes(\"nao encontrada\")\r",
+                  "    ).to.eql(true);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/api/courts/{{courtId}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "courts",
+                "{{courtId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Court - Invalild Data",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Request failed as expected\", function () {\r",
+                  "    pm.expect(body.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Error object exists\", function () {\r",
+                  "    pm.expect(body).to.have.property(\"error\");\r",
+                  "    pm.expect(body.error).to.have.property(\"code\");\r",
+                  "    pm.expect(body.error).to.have.property(\"message\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Validation error is returned\", function () {\r",
+                  "    pm.expect(body.error.code).to.be.a(\"string\");\r",
+                  "    pm.expect(body.error.code).to.not.be.empty;\r",
+                  "\r",
+                  "    pm.expect(body.error.message).to.be.a(\"string\");\r",
+                  "    pm.expect(body.error.message).to.not.be.empty;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"\",\r\n    \"sport\": \"\",\r\n    \"location\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3333/api/courts",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "courts"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "04 - Reservations",
+      "item": [
+        {
+          "name": "Create Reservation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "const requestBody = JSON.parse(pm.request.body.raw);\r",
+                  "\r",
+                  "pm.test(\"Reservation was created\", function () {\r",
+                  "    pm.expect(body.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Reservation has an ID\", function () {\r",
+                  "    pm.expect(body.data).to.have.property(\"id\");\r",
+                  "    pm.expect(body.data.id).to.be.a(\"string\");\r",
+                  "    pm.expect(body.data.id).to.not.be.empty;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Reservation uses the correct player\", function () {\r",
+                  "    pm.expect(body.data.playerId).to.eql(requestBody.playerId);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Reservation uses the correct court\", function () {\r",
+                  "    pm.expect(body.data.courtId).to.eql(requestBody.courtId);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Reservation date is correct\", function () {\r",
+                  "    pm.expect(body.data.date).to.eql(requestBody.date);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Reservation start time is correct\", function () {\r",
+                  "    pm.expect(body.data.startTime).to.eql(requestBody.startTime);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Reservation end time is correct\", function () {\r",
+                  "    pm.expect(body.data.endTime).to.eql(requestBody.endTime);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Reservation has required fields\", function () {\r",
+                  "    pm.expect(body.data).to.have.property(\"date\");\r",
+                  "    pm.expect(body.data).to.have.property(\"startTime\");\r",
+                  "    pm.expect(body.data).to.have.property(\"endTime\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.globals.set(\"reservationId\", body.data.id);\r",
+                  "\r",
+                  "console.log(\"Reservation ID:\", body.data.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "name": "cache-control",
+                "sortOrder": 2,
+                "infoTitle": "We recommend using this header",
+                "info": "Postman added \"Cache-Control: no-cache\" as a precautionary measure to prevent the server from returning stale response when one makes repeated requests.\n\nYou can remove this header in the app settings or enter a new one with a different value.",
+                "allowedToToggle": false,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to settings",
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "postman-token",
+                "sortOrder": 3,
+                "infoTitle": "We recommend using this header",
+                "info": "The Postman-Token header appends a random UUID to every outgoing request. Postman adds this header for API developers to better debug requests sent and to ensure separate requests appear distinct to the receiving server.\n\nYou can remove this header in the app settings.",
+                "allowedToToggle": false,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to settings",
+                "key": "Postman-Token",
+                "value": "<calculated when request is sent>",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "content-length",
+                "sortOrder": 5,
+                "infoTitle": "This header was automatically added",
+                "info": "The Content-Length header was added to indicate to the server the size of the request body that is added to this request. Server uses this value to parse the request body accurately.\n\nYou can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to body",
+                "key": "Content-Length",
+                "value": "0",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "host",
+                "sortOrder": 6,
+                "infoTitle": "We recommend using this header",
+                "info": "The Host header is added to identify the domain name for which a request is being sent to the server. This header is implicitly sent by every HTTP client.\n\nYou can remove the header or enter a new one with a different value. It is most likely that without this header, your request will return an HTTP 400 error.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Host",
+                "value": "<calculated when request is sent>",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "user-agent",
+                "sortOrder": 7,
+                "infoTitle": "We recommend using this header",
+                "info": "The User-Agent header is added to help the server identify Postman as the HTTP requesting application or client.\n\nIt is recommended that this header be sent, but you can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "accept",
+                "sortOrder": 8,
+                "infoTitle": "We recommend using this header",
+                "info": "The \"Accept: */*\" header is added to tell the server that Postman can understand and process all forms of response content types.\n\nIt is recommended that this header be sent, but you can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Accept",
+                "value": "*/*",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "accept-encoding",
+                "sortOrder": 9,
+                "infoTitle": "We recommend using this header",
+                "info": "The Accept-Encoding header is added to indicate to the server that Postman HTTP client supports a defined list of content-encoding or compression algorithms as response.\n\nYou can remove the header or enter a new one with a different value. Doing that may not accurately render the response within the app.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "connection",
+                "sortOrder": 10,
+                "infoTitle": "We recommend using this header",
+                "info": "Postman added the Connection header to indicate the server to keep the underlying network connection open once the current response is received. This allows Postman to reuse the same connection for faster response times in subsequent requests to the same server.\n\nYou can remove this header or enter a new one with a different value, such as `Connection: Close` to control this behaviour.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "id": 0
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"playerId\": \"efe01152-58bc-4ccc-bbc4-05cecb205efc\",\r\n    \"courtId\": \"5d8f8550-5bf4-432f-83b0-d86f60cfca8f\",\r\n    \"date\": \"2026-07-10\",\r\n    \"startTime\": \"16:00\",\r\n    \"endTime\": \"17:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3333/api/reservations",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "reservations"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Reservation By ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Request was successful\", function () {\r",
+                  "    pm.expect(body.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Reservation has an ID\", function () {\r",
+                  "    pm.expect(body.data).to.have.property(\"id\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Returned ID matches reservationId\", function () {\r",
+                  "    pm.expect(body.data.id).to.eql(\r",
+                  "        pm.globals.get(\"reservationId\")\r",
+                  "    );\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Reservation has a valid playerId\", function () {\r",
+                  "    pm.expect(body.data.playerId).to.be.a(\"string\");\r",
+                  "    pm.expect(body.data.playerId).to.not.be.empty;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Reservation has a valid courtId\", function () {\r",
+                  "    pm.expect(body.data.courtId).to.be.a(\"string\");\r",
+                  "    pm.expect(body.data.courtId).to.not.be.empty;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Reservation has required fields\", function () {\r",
+                  "    pm.expect(body.data).to.have.property(\"date\");\r",
+                  "    pm.expect(body.data).to.have.property(\"startTime\");\r",
+                  "    pm.expect(body.data).to.have.property(\"endTime\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/api/reservations/{{reservationId}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "reservations",
+                "{{reservationId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Reservations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/api/reservations",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "reservations"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Reservation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Request was successful\", function () {\r",
+                  "    pm.expect(body.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Reservation was updated\", function () {\r",
+                  "    pm.expect(body.data).to.have.property(\"id\");\r",
+                  "    pm.expect(body.data.id).to.be.a(\"string\");\r",
+                  "    pm.expect(body.data.id).to.not.be.empty;\r",
+                  "});\r",
+                  "\r",
+                  "const requestBody = JSON.parse(pm.request.body.raw);\r",
+                  "\r",
+                  "pm.test(\"Start time was updated\", function () {\r",
+                  "    pm.expect(body.data.startTime).to.eql(requestBody.startTime);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"End time was updated\", function () {\r",
+                  "    pm.expect(body.data.endTime).to.eql(requestBody.endTime);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Reservation still has required fields\", function () {\r",
+                  "    pm.expect(body.data).to.have.property(\"playerId\");\r",
+                  "    pm.expect(body.data).to.have.property(\"courtId\");\r",
+                  "    pm.expect(body.data).to.have.property(\"date\");\r",
+                  "    pm.expect(body.data).to.have.property(\"startTime\");\r",
+                  "    pm.expect(body.data).to.have.property(\"endTime\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.globals.set(\"reservationId\", body.data.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"playerId\": \"dd77d263-508e-44ed-8cd7-993fcfb41729\",\r\n  \"courtId\": \"2a04efcc-b575-4043-96fb-d73d8eeaa751\",\r\n  \"date\": \"2026-08-10\",\r\n  \"startTime\": \"20:00\",\r\n  \"endTime\": \"21:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3333/api/reservations/{{reservationId}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "reservations",
+                "{{reservationId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Reservation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Request was successful\", function () {\r",
+                  "    pm.expect(body.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Reservation was deleted successfully\", function () {\r",
+                  "    pm.expect(body.message).to.include(\"removida\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response data is null\", function () {\r",
+                  "    pm.expect(body.data).to.eql(null);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/api/reservations/{{reservationId}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "reservations",
+                "{{reservationId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Reservation Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Request failed as expected\", function () {\r",
+                  "    pm.expect(body.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Error object exists\", function () {\r",
+                  "    pm.expect(body).to.have.property(\"error\");\r",
+                  "    pm.expect(body.error).to.have.property(\"code\");\r",
+                  "    pm.expect(body.error).to.have.property(\"message\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Reservation was not found\", function () {\r",
+                  "    pm.expect(body.error.code).to.eql(\"NOT_FOUND\");\r",
+                  "    pm.expect(body.error.message).to.include(\"Reserva não encontrada\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3333/api/reservations/{{reservationId}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "reservations",
+                "{{reservationId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Reservation - Time Conflict",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 409\", function () {\r",
+                  "    pm.response.to.have.status(409);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Request failed as expected\", function () {\r",
+                  "    pm.expect(body.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Conflict error is present\", function () {\r",
+                  "    pm.expect(body).to.have.property(\"error\");\r",
+                  "    pm.expect(body.error).to.have.property(\"code\");\r",
+                  "    pm.expect(body.error).to.have.property(\"message\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Reservation conflict was detected\", function () {\r",
+                  "    pm.expect(body.error.code).to.eql(\"RESERVATION_CONFLICT\");\r",
+                  "    pm.expect(body.error.message).to.be.a(\"string\");\r",
+                  "    pm.expect(body.error.message).to.not.be.empty;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Error message describes the conflict\", function () {\r",
+                  "    const message = body.error.message.toLowerCase();\r",
+                  "\r",
+                  "    pm.expect(\r",
+                  "        message.includes(\"já existe\") ||\r",
+                  "        message.includes(\"reserva\") ||\r",
+                  "        message.includes(\"sobrepõe\")\r",
+                  "    ).to.eql(true);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"playerId\": \"65c99ffa-5b3a-4937-a881-424a96997782\",\r\n  \"courtId\": \"d21ee942-e9c7-47bb-945b-5e58d67eee53\",\r\n  \"date\": \"2026-07-26\",\r\n  \"startTime\": \"14:00\",\r\n  \"endTime\": \"15:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3333/api/reservations",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "reservations"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Reservation - Invalid Data",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Request failed as expected\", function () {\r",
+                  "    pm.expect(body.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Error object exists\", function () {\r",
+                  "    pm.expect(body).to.have.property(\"error\");\r",
+                  "    pm.expect(body.error).to.have.property(\"code\");\r",
+                  "    pm.expect(body.error).to.have.property(\"message\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Validation error is returned\", function () {\r",
+                  "    pm.expect(body.error.code).to.be.a(\"string\");\r",
+                  "    pm.expect(body.error.code).to.not.be.empty;\r",
+                  "\r",
+                  "    pm.expect(body.error.message).to.be.a(\"string\");\r",
+                  "    pm.expect(body.error.message).to.not.be.empty;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"playerId\": \"\",\r\n  \"courtId\": \"\",\r\n  \"date\": \"\",\r\n  \"startTime\": \"\",\r\n  \"endTime\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3333/api/reservations",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3333",
+              "path": [
+                "api",
+                "reservations"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "05 - Limpeza",
+      "item": []
+    }
+  ]
+}

@@ -1,32 +1,32 @@
-const reservationService = require('../services/reservation.service');
-const asyncHandler = require('../utils/asyncHandler');
-const { success } = require('../utils/httpResponse');
+const reservationService = require("../services/reservation.service");
+const asyncHandler = require("../utils/asyncHandler");
+const { success } = require("../utils/httpResponse");
 
 const create = asyncHandler(async (req, res) => {
   const reservation = await reservationService.create(req.body);
 
   return success(res, {
     data: reservation,
-    message: 'Reserva criada com sucesso.',
+    message: "Reserva criada com sucesso.",
     statusCode: 201,
   });
 });
 
 const list = asyncHandler(async (req, res) => {
-  const reservations = await reservationService.findAll();
+  const reservations = await reservationService.list(req.query);
 
   return success(res, {
     data: reservations,
-    message: 'Reservas listadas com sucesso.',
+    message: "Reservas listadas com sucesso.",
   });
 });
 
 const getById = asyncHandler(async (req, res) => {
-  const reservation = await reservationService.findById(req.params.id);
+  const reservation = await reservationService.getById(req.params.id);
 
   return success(res, {
     data: reservation,
-    message: 'Reserva encontrada com sucesso.',
+    message: "Reserva encontrada com sucesso.",
   });
 });
 
@@ -35,16 +35,16 @@ const update = asyncHandler(async (req, res) => {
 
   return success(res, {
     data: reservation,
-    message: 'Reserva atualizada com sucesso.',
+    message: "Reserva atualizada com sucesso.",
   });
 });
 
 const remove = asyncHandler(async (req, res) => {
-  await reservationService.delete(req.params.id);
+  await reservationService.remove(req.params.id);
 
   return success(res, {
     data: null,
-    message: 'Reserva removida com sucesso.',
+    message: "Reserva removida com sucesso.",
   });
 });
 

@@ -3,33 +3,6 @@ const prisma = require("../config/database");
 async function create(data) {
   return prisma.reservation.create({
     data,
-    include: {
-      player: true,
-      court: true,
-    },
-  });
-}
-
-async function findConflicts({ courtId, date, startTime, endTime, excludeId }) {
-  return prisma.reservation.findMany({
-    where: {
-      courtId,
-      date,
-
-      startTime: {
-        lt: endTime,
-      },
-
-      endTime: {
-        gt: startTime,
-      },
-
-      ...(excludeId && {
-        id: {
-          not: excludeId,
-        },
-      }),
-    },
   });
 }
 
@@ -57,24 +30,31 @@ async function update(id, data) {
   return prisma.reservation.update({
     where: { id },
     data,
-    include: {
-      player: true,
-      court: true,
-    },
   });
 }
 
-async function remove(id) {
+async function deleteReservation(id) {
   return prisma.reservation.delete({
     where: { id },
   });
 }
 
+async function findConflicts({ courtId, date, startTime, endTime, excludeId }) {
+  return prisma.reservation.findMany({
+    where: {
+      courtId,
+      date,
+      ...(excludeId && { id: { not: excludeId } }),
+      AND: [{ startTime: { lt: endTime } }, { endTime: { gt: startTime } }],
+    },
+  });
+}
+
 module.exports = {
   create,
-  findConflicts,
   findAll,
   findById,
   update,
-  remove,
+  remove: deleteReservation,
+  findConflicts,
 };
