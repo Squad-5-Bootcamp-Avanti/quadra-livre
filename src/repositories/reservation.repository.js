@@ -6,8 +6,9 @@ async function create(data) {
   });
 }
 
-async function findAll() {
+async function findAll(filters = {}) {
   return prisma.reservation.findMany({
+    where: filters,
     include: {
       player: true,
       court: true,
@@ -38,10 +39,25 @@ async function deleteReservation(id) {
   });
 }
 
+async function findConflicts({ courtId, date, startTime, endTime, excludeId }) {
+  return prisma.reservation.findMany({
+    where: {
+      courtId,
+      date,
+      ...(excludeId && { id: { not: excludeId } }),
+      AND: [
+        { startTime: { lt: endTime } },
+        { endTime: { gt: startTime } },
+      ],
+    },
+  });
+}
+
 module.exports = {
   create,
   findAll,
   findById,
   update,
-  delete: deleteReservation,
+  remove: deleteReservation,
+  findConflicts,
 };
