@@ -312,7 +312,7 @@ quadra-livre/
 │
 ├── CHANGELOG.md
 └── README.md
-
+````
 ---
 
 # 🗄️ Banco de Dados
@@ -1119,7 +1119,7 @@ As capturas de tela dos testes encontram-se na pasta:
 
 ```
 evidencias/Relatorio_Testes_API_Quadra_Livre.pdf
-
+```
 relatório contendo as evidências da execução dos testes realizados.
 
 ---
@@ -1127,12 +1127,9 @@ relatório contendo as evidências da execução dos testes realizados.
 # 📂 Collection do Postman
 
 A collection utilizada para validar todos os endpoints encontra-se em:
-
 ```
-
 postman/
-
-````
+```
 
 A collection contempla todos os cenários de teste implementados na aplicação.
 
