@@ -1,0 +1,17 @@
+.avatar {
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.sm  { width: 32px;  height: 32px;  font-size: var(--text-xs);  }
+.md  { width: 40px;  height: 40px;  font-size: var(--text-sm);  }
+.lg  { width: 56px;  height: 56px;  font-size: var(--text-base);}
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+  font-weight: var(--font-bold);
+  font-family: var(--font-display);
+}
