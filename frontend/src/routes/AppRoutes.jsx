@@ -8,7 +8,7 @@ import NotFoundPage from '../pages/NotFoundPage';
 // Páginas — cada integrante cria a sua
 // Os imports abaixo serão descomentados conforme o time entrega
 // import LandingPage       from '../pages/LandingPage';
-// import LoginPage         from '../pages/LoginPage';
+import LoginPage         from '../pages/LoginPage';
 // import RegisterPage      from '../pages/RegisterPage';
 // import ProfilePage       from '../pages/ProfilePage';
 // import CourtsPage        from '../pages/CourtsPage';
@@ -42,7 +42,7 @@ export default function AppRoutes() {
 
       {/* ── Rotas de autenticação ── */}
       <Route element={<AuthLayout />}>
-        <Route path="login"   element={<Placeholder name="Login (Int. 2)" />} />
+        <Route path="login"   element={<LoginPage />} />
         <Route path="cadastro" element={<Placeholder name="Cadastro (Int. 2)" />} />
       </Route>
 
