@@ -1,6 +1,7 @@
 const authService = require('../services/auth.service');
 const asyncHandler = require('../utils/asyncHandler');
 const { success } = require('../utils/httpResponse');
+const ApiError = require('../utils/ApiError');
 
 /**
  * POST /api/auth/register
@@ -10,19 +11,11 @@ const register = asyncHandler(async (req, res) => {
   const { name, email, phone, password } = req.body;
 
   if (!name || !email || !phone || !password) {
-    return res.status(400).json({
-      success: false,
-      message: 'Campos obrigatórios: name, email, phone, password.',
-      code: 'MISSING_FIELDS',
-    });
+    throw ApiError.badRequest('Campos obrigatórios: name, email, phone, password.', 'MISSING_FIELDS');
   }
 
   if (password.length < 6) {
-    return res.status(400).json({
-      success: false,
-      message: 'A senha deve ter no mínimo 6 caracteres.',
-      code: 'WEAK_PASSWORD',
-    });
+    throw ApiError.badRequest('A senha deve ter no mínimo 6 caracteres.', 'WEAK_PASSWORD');
   }
 
   const result = await authService.register({ name, email, phone, password });
@@ -42,11 +35,7 @@ const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({
-      success: false,
-      message: 'Campos obrigatórios: email, password.',
-      code: 'MISSING_FIELDS',
-    });
+    throw ApiError.badRequest('Campos obrigatórios: email, password.', 'MISSING_FIELDS');
   }
 
   const result = await authService.login(email, password);
@@ -66,11 +55,7 @@ const updateRole = asyncHandler(async (req, res) => {
   const { role } = req.body;
 
   if (!role) {
-    return res.status(400).json({
-      success: false,
-      message: 'Campo obrigatório: role.',
-      code: 'MISSING_FIELDS',
-    });
+    throw ApiError.badRequest('Campo obrigatório: role.', 'MISSING_FIELDS');
   }
 
   const player = await authService.updateRole(id, role);
