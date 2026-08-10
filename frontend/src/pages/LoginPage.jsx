@@ -23,7 +23,7 @@ export default function LoginPage() {
       await login(email, password);
       navigate(from, { replace: true });
     } catch (err) {
-      const message = err?.response?.data?.message || 'Erro ao fazer login. Tente novamente.';
+      const message = err?.response?.data?.error?.message || 'Erro ao fazer login. Tente novamente.';
       setError(message);
     } finally {
       setLoading(false);
