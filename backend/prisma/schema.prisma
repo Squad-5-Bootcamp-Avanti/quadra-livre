@@ -1,5 +1,4 @@
-// Prisma Schema — Sistema de Agendamento de Quadras Esportivas
-// Documentação: https://pris.ly/d/prisma-schema
+// prisma/schema.prisma
 
 generator client {
   provider = "prisma-client-js"
@@ -24,13 +23,24 @@ enum SportType {
 }
 
 // ─────────────────────────────────────────────
-// MODEL: Player (Jogador)
+// ENUM: papéis de acesso (RBAC)
+// ─────────────────────────────────────────────
+enum Role {
+  ADMIN
+  JOGADOR
+}
+
+// ─────────────────────────────────────────────
+// MODEL: Player (Jogador / Usuário do sistema)
+// Agora centraliza autenticação e perfil.
 // ─────────────────────────────────────────────
 model Player {
-  id    String @id @default(uuid())
-  name  String
-  email String @unique
-  phone String
+  id       String  @id @default(uuid())
+  name     String
+  email    String  @unique
+  phone    String
+  password String?          // nullable: jogadores pré-existentes sem senha
+  role     Role    @default(JOGADOR)
 
   reservations Reservation[]
 
@@ -59,10 +69,6 @@ model Court {
 
 // ─────────────────────────────────────────────
 // MODEL: Reservation (Reserva)
-// Entidade associativa entre Player e Court.
-// A regra de conflito de horário é validada na
-// camada de Service (não no schema), consultando
-// reservas pela combinação courtId + date.
 // ─────────────────────────────────────────────
 model Reservation {
   id String @id @default(uuid())
@@ -80,8 +86,6 @@ model Reservation {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  // Índice composto: acelera a query de checagem de
-  // conflito, que sempre filtra por quadra + data.
   @@index([courtId, date])
   @@map("reservations")
 }

@@ -1,0 +1,94 @@
+/* ─────────────────────────────────────────────────────────────
+   QUADRA LIVRE — Design System Tokens
+   Importar antes de qualquer outro CSS no main.jsx
+   ───────────────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  /* ── Cores principais ── */
+  --color-primary:        #1B4332;
+  --color-primary-light:  #2D6A4F;
+  --color-primary-dark:   #132a20;
+  --color-accent:         #52B788;
+  --color-accent-light:   #95D5B2;
+
+  /* ── Superfícies ── */
+  --color-bg:             #F8FAF9;
+  --color-bg-card:        #FFFFFF;
+  --color-bg-sidebar:     #1B4332;
+  --color-border:         #D8E6DE;
+  --color-border-focus:   #52B788;
+
+  /* ── Texto ── */
+  --color-text:           #1A1A2E;
+  --color-text-muted:     #6B7280;
+  --color-text-inverse:   #FFFFFF;
+
+  /* ── Status ── */
+  --color-success:        #22C55E;
+  --color-warning:        #F59E0B;
+  --color-danger:         #EF4444;
+  --color-danger-dark:    #C0392B;
+  --color-info:           #3B82F6;
+
+  /* ── Fundos de status ── */
+  --color-success-bg:     #F0FDF4;
+  --color-warning-bg:     #FFFBEB;
+  --color-danger-bg:      #FEF2F2;
+  --color-info-bg:        #EFF6FF;
+
+  /* ── Tipografia ── */
+  --font-display:         'Syne', sans-serif;
+  --font-body:            'Inter', sans-serif;
+
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+
+  --font-normal:   400;
+  --font-medium:   500;
+  --font-semibold: 600;
+  --font-bold:     700;
+  --font-extrabold:800;
+
+  /* ── Espaçamento ── */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* ── Bordas ── */
+  --radius-sm:   0.25rem;
+  --radius-md:   0.5rem;
+  --radius-lg:   0.75rem;
+  --radius-xl:   1rem;
+  --radius-full: 9999px;
+
+  /* ── Sombras ── */
+  --shadow-sm:  0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md:  0 4px 6px rgba(0,0,0,0.07);
+  --shadow-lg:  0 10px 15px rgba(0,0,0,0.1);
+  --shadow-xl:  0 20px 25px rgba(0,0,0,0.1);
+
+  /* ── Transições ── */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow:   350ms ease;
+
+  /* ── Layout ── */
+  --sidebar-width:     240px;
+  --navbar-height:     64px;
+  --container-max:     1200px;
+}

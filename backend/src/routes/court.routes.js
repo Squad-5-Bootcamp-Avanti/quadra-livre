@@ -2,6 +2,8 @@ const { Router } = require('express');
 const { body } = require('express-validator');
 const validate = require('../middlewares/validate.middleware');
 const courtController = require('../controllers/court.controller');
+const { authenticate } = require('../middlewares/auth.middleware');
+const { authorize } = require('../middlewares/role.middleware');
 
 const router = Router();
 
@@ -13,10 +15,13 @@ const courtValidation = [
   body('location').trim().notEmpty().withMessage('A localização é obrigatória.'),
 ];
 
-router.post('/', courtValidation, validate, courtController.create);
+// Rotas públicas — qualquer um pode visualizar quadras
 router.get('/', courtController.list);
 router.get('/:id', courtController.getById);
-router.put('/:id', courtValidation, validate, courtController.update);
-router.delete('/:id', courtController.remove);
+
+// Rotas protegidas — apenas ADMIN pode criar, editar e excluir
+router.post('/', authenticate, authorize('ADMIN'), courtValidation, validate, courtController.create);
+router.put('/:id', authenticate, authorize('ADMIN'), courtValidation, validate, courtController.update);
+router.delete('/:id', authenticate, authorize('ADMIN'), courtController.remove);
 
 module.exports = router;
