@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import Input from '../components/common/Input';
+import styles from './LoginPage.module.css';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -31,7 +32,10 @@ export default function LoginPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <h1 className={styles.title}>Entrar</h1>
+      <p className={styles.subtitle}>Acesse sua conta para reservar quadras.</p>
+
       <Input
         label="E-mail"
         type="email"
@@ -48,13 +52,15 @@ export default function LoginPage() {
         required
       />
 
-      {error && <p role="alert" className="form-error">{error}</p>}
+      {error && <p role="alert" className={styles.error}>{error}</p>}
 
-      <button type="submit" disabled={loading}>
+      <button type="submit" className={styles.submitButton} disabled={loading}>
         {loading ? 'Entrando...' : 'Entrar'}
       </button>
 
-      <Link to="/cadastro">Ainda não tem conta? Cadastre-se</Link>
+      <p className={styles.footerLink}>
+        Ainda não tem conta? <Link to="/cadastro">Cadastre-se</Link>
+      </p>
     </form>
   );
 }

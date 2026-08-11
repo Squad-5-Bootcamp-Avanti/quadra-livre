@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import Input from '../components/common/Input';
+import styles from './RegisterPage.module.css';
 
 export default function RegisterPage() {
   const [name, setName] = useState('');
@@ -74,7 +75,10 @@ export default function RegisterPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <h1 className={styles.title}>Criar conta</h1>
+      <p className={styles.subtitle}>Cadastre-se para começar a reservar quadras.</p>
+
       <Input
         label="Nome"
         type="text"
@@ -111,13 +115,15 @@ export default function RegisterPage() {
         required
       />
 
-      {error && <p role="alert" className="form-error">{error}</p>}
+      {error && <p role="alert" className={styles.error}>{error}</p>}
 
-      <button type="submit" disabled={loading}>
+      <button type="submit" className={styles.submitButton} disabled={loading}>
         {loading ? 'Criando conta...' : 'Cadastrar'}
       </button>
 
-      <Link to="/login">Já tem conta? Entrar</Link>
+      <p className={styles.footerLink}>
+        Já tem conta? <Link to="/login">Entrar</Link>
+      </p>
     </form>
   );
 }
