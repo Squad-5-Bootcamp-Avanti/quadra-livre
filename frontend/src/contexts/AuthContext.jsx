@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import api from '../services/api';
+import { loginRequest, registerRequest } from '../services/authService';
 
 const AuthContext = createContext(null);
 
@@ -7,7 +7,6 @@ export function AuthProvider({ children }) {
   const [user, setUser]       = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Restaura sessão do localStorage ao carregar o app
   useEffect(() => {
     const storedUser  = localStorage.getItem('quadra_livre_user');
     const storedToken = localStorage.getItem('quadra_livre_token');
@@ -19,8 +18,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = useCallback(async (email, password) => {
-    const { data } = await api.post('/auth/login', { email, password });
-    const { player, token } = data.data;
+    const { player, token } = await loginRequest(email, password);
 
     localStorage.setItem('quadra_livre_token', token);
     localStorage.setItem('quadra_livre_user', JSON.stringify(player));
@@ -30,8 +28,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const register = useCallback(async (formData) => {
-    const { data } = await api.post('/auth/register', formData);
-    const { player, token } = data.data;
+    const { player, token } = await registerRequest(formData);
 
     localStorage.setItem('quadra_livre_token', token);
     localStorage.setItem('quadra_livre_user', JSON.stringify(player));
