@@ -30,10 +30,11 @@ function formatTimeOnly(date) {
 // ── Service ────────────────────────────────────────────────────
 
 const reservationService = {
-  list: async ({ courtId, date } = {}) => {
+  list: async ({ courtId, date, playerId } = {}) => {
     const filters = {};
     if (courtId) filters.courtId = courtId;
     if (date) filters.date = parseDateOnly(date);
+    if (playerId) filters.playerId = playerId;
 
     const reservations = await reservationRepository.findAll(filters);
     return reservations.map(reservationService.serialize);
@@ -98,7 +99,7 @@ const reservationService = {
     if (!existing) {
       throw ApiError.notFound('Reserva não encontrada.');
     }
- 
+
     const finalData = {
       playerId: data.playerId || existing.playerId,
       courtId: data.courtId || existing.courtId,
@@ -106,33 +107,33 @@ const reservationService = {
       startTime: data.startTime || formatTimeOnly(existing.startTime),
       endTime: data.endTime || formatTimeOnly(existing.endTime),
     };
- 
+
     const { playerId, courtId, date, startTime, endTime } = finalData;
- 
+
     if (startTime >= endTime) {
       throw ApiError.badRequest(
         'O horário de início deve ser anterior ao horário de fim.',
         'INVALID_TIME_RANGE'
       );
     }
- 
+
     // Otimização: busca jogador e quadra em paralelo, se necessário.
     const [player, court] = await Promise.all([
       data.playerId ? playerRepository.findById(data.playerId) : Promise.resolve(true),
       data.courtId ? courtRepository.findById(data.courtId) : Promise.resolve(existing.court),
     ]);
- 
+
     if (!player) {
       throw ApiError.notFound('Jogador informado não existe.', 'PLAYER_NOT_FOUND');
     }
     if (!court) {
       throw ApiError.notFound('Quadra informada não existe.', 'COURT_NOT_FOUND');
     }
- 
+
     const parsedDate = parseDateOnly(date);
     const parsedStart = parseTimeOnly(startTime);
     const parsedEnd = parseTimeOnly(endTime);
- 
+
     await reservationService.assertNoConflict({
       courtId,
       date: parsedDate,
@@ -144,7 +145,7 @@ const reservationService = {
       startLabel: startTime,
       endLabel: endTime,
     });
- 
+
     const updated = await reservationRepository.update(id, {
       playerId,
       courtId,
@@ -152,7 +153,7 @@ const reservationService = {
       startTime: parsedStart,
       endTime: parsedEnd,
     });
- 
+
     return reservationService.serialize(updated);
   },
 
@@ -190,7 +191,7 @@ const reservationService = {
     if (conflicts.length > 0) {
       throw ApiError.conflict(
         `Já existe uma reserva para a quadra "${courtName}" em ${dateLabel} que ` +
-          `sobrepõe o horário ${startLabel}–${endLabel}.`,
+        `sobrepõe o horário ${startLabel}–${endLabel}.`,
         'RESERVATION_CONFLICT'
       );
     }
