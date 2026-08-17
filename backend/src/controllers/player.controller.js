@@ -1,6 +1,7 @@
 const playerService = require('../services/player.service');
 const asyncHandler = require('../utils/asyncHandler');
 const { success } = require('../utils/httpResponse');
+const ApiError = require('../utils/ApiError');
 
 const create = asyncHandler(async (req, res) => {
   const player = await playerService.create(req.body);
@@ -22,7 +23,13 @@ const list = asyncHandler(async (req, res) => {
 });
 
 const getById = asyncHandler(async (req, res) => {
-  const player = await playerService.findById(req.params.id);
+  const { id } = req.params;
+
+  if (req.user.role !== 'ADMIN' && req.user.id !== id) {
+    throw ApiError.forbidden('Você não tem permissão para visualizar este perfil.');
+  }
+
+  const player = await playerService.findById(id);
 
   return success(res, {
     data: player,
@@ -31,7 +38,16 @@ const getById = asyncHandler(async (req, res) => {
 });
 
 const update = asyncHandler(async (req, res) => {
-  const player = await playerService.update(req.params.id, req.body);
+  const { id } = req.params;
+
+  if (req.user.role !== 'ADMIN' && req.user.id !== id) {
+    throw ApiError.forbidden('Você não tem permissão para editar este perfil.');
+  }
+
+  // Whitelist de campos: impede que role, senha ou outros campos sensíveis
+  // sejam alterados através deste endpoint.
+  const { name, email, phone } = req.body;
+  const player = await playerService.update(id, { name, email, phone });
 
   return success(res, {
     data: player,
