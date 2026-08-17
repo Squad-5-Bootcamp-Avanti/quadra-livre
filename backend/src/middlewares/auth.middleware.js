@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const ApiError = require('../utils/ApiError');
 
 /**
  * Middleware de autenticação.
@@ -9,11 +10,7 @@ function authenticate(req, res, next) {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({
-      success: false,
-      message: 'Token de autenticação não fornecido.',
-      code: 'MISSING_TOKEN',
-    });
+    return next(ApiError.unauthorized('Token de autenticação não fornecido.', 'MISSING_TOKEN'));
   }
 
   const token = authHeader.split(' ')[1];
@@ -24,18 +21,10 @@ function authenticate(req, res, next) {
     next();
   } catch (error) {
     if (error.name === 'TokenExpiredError') {
-      return res.status(401).json({
-        success: false,
-        message: 'Token expirado. Faça login novamente.',
-        code: 'TOKEN_EXPIRED',
-      });
+      return next(ApiError.unauthorized('Token expirado. Faça login novamente.', 'TOKEN_EXPIRED'));
     }
 
-    return res.status(401).json({
-      success: false,
-      message: 'Token inválido.',
-      code: 'INVALID_TOKEN',
-    });
+    return next(ApiError.unauthorized('Token inválido.', 'INVALID_TOKEN'));
   }
 }
 
