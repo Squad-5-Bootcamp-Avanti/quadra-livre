@@ -163,6 +163,8 @@ O repositório tem duas branches principais:
 5. Peça revisão de pelo menos um colega antes de mergear
 6. `main` só recebe merge de `develop` na Sprint 4 (QA + Deploy), ou quando o Tech Lead decidir fazer um release intermediário
 
+> ⚠️ **Importante:** ninguém deve dar push direto na `main`. Toda mudança passa por `develop` e por Pull Request — inclusive ajustes de documentação. Um push direto recente sobrescreveu conteúdo já revisado; a branch `main` agora tem proteção configurada para exigir PR.
+
 > **Nota histórica:** a branch `develop` foi criada em 09/08 a partir da `main` (que já continha a reorganização em `backend/`/`frontend/` e o setup da Sprint 1). Quem já tinha uma branch criada **antes** dessa data, baseada na estrutura antiga (sem as pastas `backend/`/`frontend/`), vai ter conflitos ao mergear — nesse caso, recrie a branch a partir da `develop` atual em vez de tentar resolver o conflito manualmente.
 
 ---
@@ -217,6 +219,8 @@ Cronograma completo: [ver documento no Google Docs](https://docs.google.com/docu
 **API "não responde" na primeira chamada:** normal — o Render (plano free) coloca o serviço pra dormir após inatividade. A primeira requisição demora até ~50s pra acordar o serviço. Não é erro.
 
 **Conflitos de merge ao trazer uma branch antiga pra `develop`/`main`:** provavelmente sua branch foi criada antes da reorganização em `backend/`/`frontend/` (08/08). Recrie a branch a partir da `develop` atual.
+
+**Push direto na `main` sobrescrevendo conteúdo revisado:** já aconteceu uma vez (um push direto substituiu este README por uma versão antiga). Por isso a branch `main` agora exige Pull Request para qualquer mudança — veja a seção 5.
 
 ---
 

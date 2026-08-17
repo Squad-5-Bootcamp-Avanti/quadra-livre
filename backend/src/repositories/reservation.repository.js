@@ -1,4 +1,4 @@
-const prisma = require('../config/database');
+const prisma = require("../config/database");
 
 async function create(data) {
   return prisma.reservation.create({
@@ -45,10 +45,7 @@ async function findConflicts({ courtId, date, startTime, endTime, excludeId }) {
       courtId,
       date,
       ...(excludeId && { id: { not: excludeId } }),
-      AND: [
-        { startTime: { lt: endTime } },
-        { endTime: { gt: startTime } },
-      ],
+      AND: [{ startTime: { lt: endTime } }, { endTime: { gt: startTime } }],
     },
   });
 }
