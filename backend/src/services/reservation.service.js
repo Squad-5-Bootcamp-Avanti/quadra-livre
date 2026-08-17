@@ -1,7 +1,7 @@
-const reservationRepository = require("../repositories/reservation.repository");
-const playerRepository = require("../repositories/player.repository");
-const courtRepository = require("../repositories/court.repository");
-const ApiError = require("../utils/ApiError");
+const reservationRepository = require('../repositories/reservation.repository');
+const playerRepository = require('../repositories/player.repository');
+const courtRepository = require('../repositories/court.repository');
+const ApiError = require('../utils/ApiError');
 
 // ── Helpers de conversão ──────────────────────────────────────
 // O Prisma armazena `date` como @db.Date e `startTime`/`endTime`
@@ -30,10 +30,11 @@ function formatTimeOnly(date) {
 // ── Service ────────────────────────────────────────────────────
 
 const reservationService = {
-  list: async ({ courtId, date } = {}) => {
+  list: async ({ courtId, date, playerId } = {}) => {
     const filters = {};
     if (courtId) filters.courtId = courtId;
     if (date) filters.date = parseDateOnly(date);
+    if (playerId) filters.playerId = playerId;
 
     const reservations = await reservationRepository.findAll(filters);
     return reservations.map(reservationService.serialize);
@@ -42,7 +43,7 @@ const reservationService = {
   getById: async (id) => {
     const reservation = await reservationRepository.findById(id);
     if (!reservation) {
-      throw ApiError.notFound("Reserva não encontrada.");
+      throw ApiError.notFound('Reserva não encontrada.');
     }
     return reservationService.serialize(reservation);
   },
@@ -52,27 +53,19 @@ const reservationService = {
 
     if (startTime >= endTime) {
       throw ApiError.badRequest(
-        "O horário de início deve ser anterior ao horário de fim.",
-        "INVALID_TIME_RANGE",
+        'O horário de início deve ser anterior ao horário de fim.',
+        'INVALID_TIME_RANGE'
       );
     }
 
     const player = await playerRepository.findById(playerId);
-
     if (!player) {
-      throw ApiError.notFound(
-        "Jogador informado não existe.",
-        "PLAYER_NOT_FOUND",
-      );
+      throw ApiError.notFound('Jogador informado não existe.', 'PLAYER_NOT_FOUND');
     }
 
     const court = await courtRepository.findById(courtId);
-
     if (!court) {
-      throw ApiError.notFound(
-        "Quadra informada não existe.",
-        "COURT_NOT_FOUND",
-      );
+      throw ApiError.notFound('Quadra informada não existe.', 'COURT_NOT_FOUND');
     }
 
     const parsedDate = parseDateOnly(date);
@@ -104,7 +97,7 @@ const reservationService = {
   update: async (id, data) => {
     const existing = await reservationRepository.findById(id);
     if (!existing) {
-      throw ApiError.notFound("Reserva não encontrada.");
+      throw ApiError.notFound('Reserva não encontrada.');
     }
 
     const finalData = {
@@ -119,32 +112,22 @@ const reservationService = {
 
     if (startTime >= endTime) {
       throw ApiError.badRequest(
-        "O horário de início deve ser anterior ao horário de fim.",
-        "INVALID_TIME_RANGE",
+        'O horário de início deve ser anterior ao horário de fim.',
+        'INVALID_TIME_RANGE'
       );
     }
 
     // Otimização: busca jogador e quadra em paralelo, se necessário.
     const [player, court] = await Promise.all([
-      data.playerId
-        ? playerRepository.findById(data.playerId)
-        : Promise.resolve(true),
-      data.courtId
-        ? courtRepository.findById(data.courtId)
-        : Promise.resolve(existing.court),
+      data.playerId ? playerRepository.findById(data.playerId) : Promise.resolve(true),
+      data.courtId ? courtRepository.findById(data.courtId) : Promise.resolve(existing.court),
     ]);
 
     if (!player) {
-      throw ApiError.notFound(
-        "Jogador informado não existe.",
-        "PLAYER_NOT_FOUND",
-      );
+      throw ApiError.notFound('Jogador informado não existe.', 'PLAYER_NOT_FOUND');
     }
     if (!court) {
-      throw ApiError.notFound(
-        "Quadra informada não existe.",
-        "COURT_NOT_FOUND",
-      );
+      throw ApiError.notFound('Quadra informada não existe.', 'COURT_NOT_FOUND');
     }
 
     const parsedDate = parseDateOnly(date);
@@ -177,7 +160,7 @@ const reservationService = {
   remove: async (id) => {
     const existing = await reservationRepository.findById(id);
     if (!existing) {
-      throw ApiError.notFound("Reserva não encontrada.");
+      throw ApiError.notFound('Reserva não encontrada.');
     }
     return reservationRepository.remove(id);
   },
@@ -208,8 +191,8 @@ const reservationService = {
     if (conflicts.length > 0) {
       throw ApiError.conflict(
         `Já existe uma reserva para a quadra "${courtName}" em ${dateLabel} que ` +
-          `sobrepõe o horário ${startLabel}–${endLabel}.`,
-        "RESERVATION_CONFLICT",
+        `sobrepõe o horário ${startLabel}–${endLabel}.`,
+        'RESERVATION_CONFLICT'
       );
     }
   },

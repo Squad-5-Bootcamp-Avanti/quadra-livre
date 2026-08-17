@@ -18,6 +18,14 @@ class ApiError extends Error {
     return new ApiError(400, code, message);
   }
 
+  static unauthorized(message, code = 'UNAUTHORIZED') {
+    return new ApiError(401, code, message);
+  }
+
+  static forbidden(message, code = 'FORBIDDEN') {
+    return new ApiError(403, code, message);
+  }
+
   static notFound(message, code = 'NOT_FOUND') {
     return new ApiError(404, code, message);
   }
