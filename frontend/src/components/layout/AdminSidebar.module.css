@@ -48,10 +48,39 @@
 .footer {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--space-3);
   padding: var(--space-4) var(--space-5);
   border-top: 1px solid rgba(255,255,255,0.1);
 }
-.userInfo { display: flex; flex-direction: column; }
-.userName { font-size: var(--text-sm); font-weight: var(--font-medium); color: white; }
+.userArea {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.userInfo { display: flex; flex-direction: column; min-width: 0; }
+.userName {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .userRole { font-size: var(--text-xs); color: var(--color-accent-light); }
+.logoutBtn {
+  flex-shrink: 0;
+  padding: var(--space-2) var(--space-3);
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.logoutBtn:hover { background: rgba(255,255,255,0.08); color: white; }
+.logoutBtn:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }

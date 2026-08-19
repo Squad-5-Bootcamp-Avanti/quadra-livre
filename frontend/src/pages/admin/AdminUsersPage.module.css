@@ -1,0 +1,23 @@
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: var(--font-extrabold);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.toolbar {
+  margin: var(--space-8) 0 var(--space-4);
+  max-width: 420px;
+}
+
+.user {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.pagination {
+  margin-top: var(--space-6);
+}

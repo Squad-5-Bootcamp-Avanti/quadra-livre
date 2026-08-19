@@ -14,10 +14,12 @@ const create = asyncHandler(async (req, res) => {
 });
 
 const list = asyncHandler(async (req, res) => {
-  const players = await playerService.findAll();
+  const { page, limit } = req.query;
+  const result = await playerService.findAll({ page, limit });
 
   return success(res, {
-    data: players,
+    data: result.data,
+    meta: result.meta,
     message: 'Jogadores listados com sucesso.',
   });
 });

@@ -1,5 +1,21 @@
 const prisma = require("../config/database");
 
+// O player embutido sai sem o hash de `password`.
+const reservationInclude = {
+  player: {
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      phone: true,
+      role: true,
+    },
+  },
+  court: true,
+};
+
+const reservationOrder = [{ date: "desc" }, { startTime: "desc" }];
+
 async function create(data) {
   return prisma.reservation.create({
     data,
@@ -9,20 +25,28 @@ async function create(data) {
 async function findAll(filters = {}) {
   return prisma.reservation.findMany({
     where: filters,
-    include: {
-      player: true,
-      court: true,
-    },
+    include: reservationInclude,
+    orderBy: reservationOrder,
   });
+}
+
+async function findPage(filters = {}, { skip, take }) {
+  return prisma.$transaction([
+    prisma.reservation.findMany({
+      where: filters,
+      include: reservationInclude,
+      orderBy: reservationOrder,
+      skip,
+      take,
+    }),
+    prisma.reservation.count({ where: filters }),
+  ]);
 }
 
 async function findById(id) {
   return prisma.reservation.findUnique({
     where: { id },
-    include: {
-      player: true,
-      court: true,
-    },
+    include: reservationInclude,
   });
 }
 
@@ -53,6 +77,7 @@ async function findConflicts({ courtId, date, startTime, endTime, excludeId }) {
 module.exports = {
   create,
   findAll,
+  findPage,
   findById,
   update,
   remove: deleteReservation,
