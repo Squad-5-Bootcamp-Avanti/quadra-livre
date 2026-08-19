@@ -7,6 +7,7 @@ const publicPlayerSelect = {
   email: true,
   phone: true,
   role: true,
+  isActive: true,
   createdAt: true,
   updatedAt: true,
 };
