@@ -3,6 +3,7 @@ const playerRoutes = require('./player.routes');
 const courtRoutes = require('./court.routes');
 const reservationRoutes = require('./reservation.routes');
 const authRoutes = require('./auth.routes');
+const adminRoutes = require('./admin.routes');
 
 const router = Router();
 
@@ -22,5 +23,6 @@ router.use('/auth', authRoutes);
 router.use('/players', playerRoutes);
 router.use('/courts', courtRoutes);
 router.use('/reservations', reservationRoutes);
+router.use('/admin', adminRoutes);
 
 module.exports = router;
