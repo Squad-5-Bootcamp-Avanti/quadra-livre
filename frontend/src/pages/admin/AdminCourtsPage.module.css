@@ -8,14 +8,16 @@
 }
 
 .toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
   margin: var(--space-8) 0 var(--space-4);
-  max-width: 420px;
 }
 
-.user {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
+.search {
+  flex: 1;
+  max-width: 420px;
 }
 
 .actions {
@@ -23,9 +25,10 @@
   gap: var(--space-2);
 }
 
-.self {
-  color: var(--color-text-muted);
-  font-size: var(--text-sm);
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 .pagination {

@@ -16,7 +16,7 @@ import RegisterPage      from '../pages/RegisterPage';
 // import ReservationsPage  from '../pages/ReservationsPage';
 import AdminDashboard    from '../pages/admin/AdminDashboard';
 import AdminUsersPage    from '../pages/admin/AdminUsersPage';
-// import AdminCourtsPage   from '../pages/admin/AdminCourtsPage';
+import AdminCourtsPage   from '../pages/admin/AdminCourtsPage';
 import AdminReservations from '../pages/admin/AdminReservationsPage';
 
 // Placeholder temporário para rotas ainda não implementadas
@@ -77,7 +77,7 @@ export default function AppRoutes() {
       >
         <Route index element={<AdminDashboard />} />
         <Route path="usuarios"  element={<AdminUsersPage />} />
-        <Route path="quadras"   element={<Placeholder name="Gerenciar Quadras (Int. 5)" />} />
+        <Route path="quadras"   element={<AdminCourtsPage />} />
         <Route path="reservas"  element={<AdminReservations />} />
       </Route>
 

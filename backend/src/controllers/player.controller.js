@@ -66,10 +66,23 @@ const remove = asyncHandler(async (req, res) => {
   });
 });
 
+const updateStatus = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { isActive } = req.body;
+
+  const player = await playerService.setStatus(id, isActive, req.user.id);
+
+  return success(res, {
+    data: player,
+    message: isActive ? 'Usuário ativado com sucesso.' : 'Usuário desativado com sucesso.',
+  });
+});
+
 module.exports = {
   create,
   list,
   getById,
   update,
   remove,
+  updateStatus,
 };
