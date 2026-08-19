@@ -22,10 +22,11 @@ const list = asyncHandler(async (req, res) => {
     filters.playerId = req.user.id;
   }
 
-  const reservations = await reservationService.list(filters);
+  const result = await reservationService.list(filters);
 
   return success(res, {
-    data: reservations,
+    data: result.data,
+    meta: result.meta,
     message: 'Reservas listadas com sucesso.',
   });
 });

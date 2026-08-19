@@ -2,6 +2,7 @@ const reservationRepository = require('../repositories/reservation.repository');
 const playerRepository = require('../repositories/player.repository');
 const courtRepository = require('../repositories/court.repository');
 const ApiError = require('../utils/ApiError');
+const { parsePagination, buildMeta } = require('../utils/pagination');
 
 // ── Helpers de conversão ──────────────────────────────────────
 // O Prisma armazena `date` como @db.Date e `startTime`/`endTime`
@@ -30,14 +31,26 @@ function formatTimeOnly(date) {
 // ── Service ────────────────────────────────────────────────────
 
 const reservationService = {
-  list: async ({ courtId, date, playerId } = {}) => {
+  list: async ({ courtId, date, playerId, page, limit } = {}) => {
     const filters = {};
     if (courtId) filters.courtId = courtId;
     if (date) filters.date = parseDateOnly(date);
     if (playerId) filters.playerId = playerId;
 
-    const reservations = await reservationRepository.findAll(filters);
-    return reservations.map(reservationService.serialize);
+    // Sem `page`/`limit` na query, mantém o comportamento original
+    // (array completo, sem meta), preservando os consumidores atuais.
+    if (page === undefined && limit === undefined) {
+      const reservations = await reservationRepository.findAll(filters);
+      return { data: reservations.map(reservationService.serialize) };
+    }
+
+    const pagination = parsePagination({ page, limit });
+    const [reservations, total] = await reservationRepository.findPage(filters, pagination);
+
+    return {
+      data: reservations.map(reservationService.serialize),
+      meta: buildMeta({ total, page: pagination.page, limit: pagination.limit }),
+    };
   },
 
   getById: async (id) => {
