@@ -66,10 +66,26 @@ async function deletePlayer(id) {
   return playerRepository.delete(id);
 }
 
+async function setStatus(id, isActive, requesterId) {
+  // Admin não pode desativar a própria conta.
+  if (!isActive && id === requesterId) {
+    throw ApiError.badRequest('Você não pode desativar a própria conta.', 'CANNOT_DEACTIVATE_SELF');
+  }
+
+  const player = await playerRepository.findById(id);
+
+  if (!player) {
+    throw ApiError.notFound('Jogador não encontrado.');
+  }
+
+  return playerRepository.update(id, { isActive });
+}
+
 module.exports = {
   create,
   findAll,
   findById,
   update,
   delete: deletePlayer,
+  setStatus,
 };

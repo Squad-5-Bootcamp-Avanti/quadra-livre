@@ -26,16 +26,31 @@
 .step {
   position: relative;
   text-align: center;
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
   opacity: 0;
   transform: translateY(20px);
+  cursor: default;
   transition:
     opacity var(--transition-slow),
-    transform var(--transition-slow);
+    transform var(--transition-slow),
+    background-color var(--transition-fast),
+    outline var(--transition-fast);
 }
 
 .stepVisible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.step:hover,
+.step:focus-visible {
+  background-color: var(--color-success-bg);
+}
+
+.step:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 .number {
@@ -51,6 +66,15 @@
   background: var(--color-primary);
   border-radius: var(--radius-full);
   margin-bottom: var(--space-4);
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.step:hover .number,
+.step:focus-visible .number {
+  background: var(--color-accent);
+  transform: scale(1.08);
 }
 
 .stepTitle {
@@ -91,5 +115,9 @@
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .step:hover .number,
+  .step:focus-visible .number {
+    transform: none;
   }
 }

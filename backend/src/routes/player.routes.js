@@ -13,9 +13,16 @@ const playerValidation = [
   body('phone').trim().notEmpty().withMessage('O telefone é obrigatório.'),
 ];
 
+const statusValidation = [
+  body('isActive').isBoolean().withMessage('O campo isActive deve ser true ou false.'),
+];
+
 // Apenas ADMIN lista todos os jogadores e deleta qualquer um
 router.get('/', authenticate, authorize('ADMIN'), playerController.list);
 router.delete('/:id', authenticate, authorize('ADMIN'), playerController.remove);
+
+// Apenas ADMIN ativa/desativa contas de usuário
+router.patch('/:id/status', authenticate, authorize('ADMIN'), statusValidation, validate, playerController.updateStatus);
 
 // Jogador autenticado pode ver e editar seu próprio perfil
 router.get('/:id', authenticate, playerController.getById);

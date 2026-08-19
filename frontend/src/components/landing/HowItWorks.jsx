@@ -33,8 +33,13 @@ export default function HowItWorks() {
               key={step.number}
               className={`${styles.step} ${visible ? styles.stepVisible : ""}`}
               style={{ transitionDelay: `${index * 150}ms` }}
+              tabIndex={0}
+              role="group"
+              aria-label={`Passo ${step.number}: ${step.title}. ${step.text}`}
             >
-              <span className={styles.number}>{step.number}</span>
+              <span className={styles.number} aria-hidden="true">
+                {step.number}
+              </span>
               <h3 className={styles.stepTitle}>{step.title}</h3>
               <p className={styles.stepText}>{step.text}</p>
               {index < steps.length - 1 && (

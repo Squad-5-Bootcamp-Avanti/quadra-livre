@@ -41,6 +41,7 @@ model Player {
   phone    String
   password String?          // nullable: jogadores pré-existentes sem senha
   role     Role    @default(JOGADOR)
+  isActive Boolean @default(true) @map("is_active")
 
   reservations Reservation[]
 

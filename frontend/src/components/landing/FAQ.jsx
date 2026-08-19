@@ -1,4 +1,5 @@
 import { useState } from "react";
+import useScrollReveal from "../../hooks/useScrollReveal";
 import styles from "./FAQ.module.css";
 
 const faqData = [
@@ -31,41 +32,58 @@ const faqData = [
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(null);
+  const [ref, visible] = useScrollReveal();
 
   const toggle = (index) => {
     setOpenIndex((prev) => (prev === index ? null : index));
   };
 
   return (
-    <section className={styles.faq} id="faq">
+    <section className={styles.faq} id="faq" aria-label="Perguntas frequentes">
       <div className={styles.container}>
         <h2 className={styles.title}>Perguntas frequentes</h2>
         <p className={styles.subtitle}>
           Tudo o que você precisa saber antes de começar a usar a plataforma.
         </p>
 
-        <div className={styles.list}>
+        <div ref={ref} className={styles.list}>
           {faqData.map((item, index) => {
             const isOpen = openIndex === index;
+            const questionId = `faq-question-${index}`;
+            const answerId = `faq-answer-${index}`;
+
             return (
               <div
                 key={index}
-                className={`${styles.item} ${isOpen ? styles.itemOpen : ""}`}
+                className={`${styles.item} ${isOpen ? styles.itemOpen : ""} ${
+                  visible ? styles.itemVisible : ""
+                }`}
+                style={{ transitionDelay: `${index * 90}ms` }}
               >
-                <button
-                  className={styles.question}
-                  onClick={() => toggle(index)}
-                  aria-expanded={isOpen}
-                >
-                  <span>{item.pergunta}</span>
-                  <span className={styles.icon}>{isOpen ? "−" : "+"}</span>
-                </button>
+                <h3 className={styles.questionHeading}>
+                  <button
+                    id={questionId}
+                    className={styles.question}
+                    onClick={() => toggle(index)}
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <span>{item.pergunta}</span>
+                    <span className={styles.icon} aria-hidden="true">
+                      {isOpen ? "−" : "+"}
+                    </span>
+                  </button>
+                </h3>
 
-                {isOpen && (
-                  <div className={styles.answer}>
-                    <p>{item.resposta}</p>
-                  </div>
-                )}
+                <div
+                  id={answerId}
+                  role="region"
+                  aria-labelledby={questionId}
+                  className={styles.answer}
+                  hidden={!isOpen}
+                >
+                  <p>{item.resposta}</p>
+                </div>
               </div>
             );
           })}

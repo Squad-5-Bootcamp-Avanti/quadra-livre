@@ -33,6 +33,9 @@ export default function Benefits() {
               key={item.title}
               className={`${styles.card} ${visible ? styles.cardVisible : ""}`}
               style={{ transitionDelay: `${index * 120}ms` }}
+              tabIndex={0}
+              role="group"
+              aria-label={`${item.title}: ${item.text}`}
             >
               <span className={styles.icon} aria-hidden="true">
                 {item.icon}

@@ -18,7 +18,7 @@ import RegisterPage from "../pages/RegisterPage";
 // import ReservationsPage  from '../pages/ReservationsPage';
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminUsersPage from "../pages/admin/AdminUsersPage";
-// import AdminCourtsPage   from '../pages/admin/AdminCourtsPage';
+import AdminCourtsPage from "../pages/admin/AdminCourtsPage";
 import AdminReservations from "../pages/admin/AdminReservationsPage";
 
 // Placeholder temporário para rotas ainda não implementadas
