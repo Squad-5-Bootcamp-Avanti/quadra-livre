@@ -1,0 +1,4 @@
+.message {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
