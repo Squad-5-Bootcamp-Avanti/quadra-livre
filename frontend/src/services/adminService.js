@@ -36,3 +36,18 @@ export async function deleteCourt(id) {
   const response = await api.delete(`/courts/${id}`);
   return response.data.data;
 }
+
+export async function setPlayerStatus(id, isActive) {
+  const response = await api.patch(`/players/${id}/status`, { isActive });
+  return response.data.data;
+}
+
+export async function setPlayerRole(id, role) {
+  const response = await api.patch(`/auth/users/${id}/role`, { role });
+  return response.data.data;
+}
+
+export async function deletePlayer(id) {
+  const response = await api.delete(`/players/${id}`);
+  return response.data.data;
+}

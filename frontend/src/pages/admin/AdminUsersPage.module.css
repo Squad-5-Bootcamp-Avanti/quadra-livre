@@ -18,6 +18,16 @@
   gap: var(--space-3);
 }
 
+.actions {
+  display: inline-flex;
+  gap: var(--space-2);
+}
+
+.self {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
 .pagination {
   margin-top: var(--space-6);
 }
