@@ -1,5 +1,6 @@
 const playerRepository = require('../repositories/player.repository');
 const ApiError = require('../utils/ApiError');
+const { parsePagination, buildMeta } = require('../utils/pagination');
 
 async function create(data) {
   const existingPlayer = await playerRepository.findByEmail(data.email);
@@ -11,8 +12,20 @@ async function create(data) {
   return playerRepository.create(data);
 }
 
-async function findAll() {
-  return playerRepository.findAll();
+async function findAll({ page, limit } = {}) {
+  // Sem `page`/`limit` na query, mantém o comportamento original
+  // (array completo, sem meta), preservando os consumidores atuais.
+  if (page === undefined && limit === undefined) {
+    return { data: await playerRepository.findAll() };
+  }
+
+  const pagination = parsePagination({ page, limit });
+  const [players, total] = await playerRepository.findPage(pagination);
+
+  return {
+    data: players,
+    meta: buildMeta({ total, page: pagination.page, limit: pagination.limit }),
+  };
 }
 
 async function findById(id) {

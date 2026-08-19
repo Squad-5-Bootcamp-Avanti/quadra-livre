@@ -16,10 +16,10 @@ import RegisterPage from "../pages/RegisterPage";
 // import CourtsPage        from '../pages/CourtsPage';
 // import CourtDetailPage   from '../pages/CourtDetailPage';
 // import ReservationsPage  from '../pages/ReservationsPage';
-// import AdminDashboard    from '../pages/admin/AdminDashboard';
-// import AdminUsersPage    from '../pages/admin/AdminUsersPage';
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import AdminUsersPage from "../pages/admin/AdminUsersPage";
 // import AdminCourtsPage   from '../pages/admin/AdminCourtsPage';
-// import AdminReservations from '../pages/admin/AdminReservationsPage';
+import AdminReservations from "../pages/admin/AdminReservationsPage";
 
 // Placeholder temporário para rotas ainda não implementadas
 const Placeholder = ({ name }) => (
@@ -83,22 +83,13 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       >
-        <Route
-          index
-          element={<Placeholder name="Dashboard Admin (Int. 5)" />}
-        />
-        <Route
-          path="usuarios"
-          element={<Placeholder name="Gerenciar Usuários (Int. 5)" />}
-        />
+        <Route index element={<AdminDashboard />} />
+        <Route path="usuarios" element={<AdminUsersPage />} />
         <Route
           path="quadras"
           element={<Placeholder name="Gerenciar Quadras (Int. 5)" />}
         />
-        <Route
-          path="reservas"
-          element={<Placeholder name="Gerenciar Reservas (Int. 5)" />}
-        />
+        <Route path="reservas" element={<AdminReservations />} />
       </Route>
 
       {/* ── 404 ── */}
