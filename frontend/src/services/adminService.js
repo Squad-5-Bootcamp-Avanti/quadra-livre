@@ -16,3 +16,8 @@ export async function getReservations({ page, limit, courtId, date, playerId } =
   });
   return { data: response.data.data, meta: response.data.meta };
 }
+
+export async function getCourts() {
+  const response = await api.get('/courts');
+  return response.data.data;
+}
