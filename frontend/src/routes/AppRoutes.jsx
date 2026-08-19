@@ -1,15 +1,17 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import ProtectedRoute from './ProtectedRoute';
-import MainLayout from '../layouts/MainLayout';
-import AuthLayout from '../layouts/AuthLayout';
-import AdminLayout from '../layouts/AdminLayout';
-import NotFoundPage from '../pages/NotFoundPage';
+import { Routes, Route, Navigate } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
+import MainLayout from "../layouts/MainLayout";
+import AuthLayout from "../layouts/AuthLayout";
+import AdminLayout from "../layouts/AdminLayout";
+import NotFoundPage from "../pages/NotFoundPage";
+import HomePage from "../pages/HomePage";
 
 // Páginas — cada integrante cria a sua
 // Os imports abaixo serão descomentados conforme o time entrega
 // import LandingPage       from '../pages/LandingPage';
-import LoginPage         from '../pages/LoginPage';
-import RegisterPage      from '../pages/RegisterPage';
+import LandingPage from "../pages/LandingPage";
+import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/RegisterPage";
 // import ProfilePage       from '../pages/ProfilePage';
 // import CourtsPage        from '../pages/CourtsPage';
 // import CourtDetailPage   from '../pages/CourtDetailPage';
@@ -21,9 +23,9 @@ import RegisterPage      from '../pages/RegisterPage';
 
 // Placeholder temporário para rotas ainda não implementadas
 const Placeholder = ({ name }) => (
-  <div style={{ padding: '2rem', fontFamily: 'Inter, sans-serif' }}>
+  <div style={{ padding: "2rem", fontFamily: "Inter, sans-serif" }}>
     <h2>🚧 {name}</h2>
-    <p style={{ color: '#6B7280', marginTop: '0.5rem' }}>
+    <p style={{ color: "#6B7280", marginTop: "0.5rem" }}>
       Esta página será implementada pelo integrante responsável.
     </p>
   </div>
@@ -32,17 +34,23 @@ const Placeholder = ({ name }) => (
 export default function AppRoutes() {
   return (
     <Routes>
-
       {/* ── Rotas públicas com layout principal ── */}
       <Route element={<MainLayout />}>
-        <Route index element={<Placeholder name="Landing Page (Int. 6)" />} />
-        <Route path="quadras" element={<Placeholder name="Quadras (Int. 3)" />} />
-        <Route path="quadras/:id" element={<Placeholder name="Detalhe da Quadra (Int. 3)" />} />
+        <Route index element={<LandingPage />} />
+
+        <Route
+          path="quadras"
+          element={<Placeholder name="Quadras (Int. 3)" />}
+        />
+        <Route
+          path="quadras/:id"
+          element={<Placeholder name="Detalhe da Quadra (Int. 3)" />}
+        />
       </Route>
 
       {/* ── Rotas de autenticação ── */}
       <Route element={<AuthLayout />}>
-        <Route path="login"   element={<LoginPage />} />
+        <Route path="login" element={<LoginPage />} />
         <Route path="cadastro" element={<RegisterPage />} />
       </Route>
 
@@ -75,15 +83,26 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       >
-        <Route index element={<Placeholder name="Dashboard Admin (Int. 5)" />} />
-        <Route path="usuarios"  element={<Placeholder name="Gerenciar Usuários (Int. 5)" />} />
-        <Route path="quadras"   element={<Placeholder name="Gerenciar Quadras (Int. 5)" />} />
-        <Route path="reservas"  element={<Placeholder name="Gerenciar Reservas (Int. 5)" />} />
+        <Route
+          index
+          element={<Placeholder name="Dashboard Admin (Int. 5)" />}
+        />
+        <Route
+          path="usuarios"
+          element={<Placeholder name="Gerenciar Usuários (Int. 5)" />}
+        />
+        <Route
+          path="quadras"
+          element={<Placeholder name="Gerenciar Quadras (Int. 5)" />}
+        />
+        <Route
+          path="reservas"
+          element={<Placeholder name="Gerenciar Reservas (Int. 5)" />}
+        />
       </Route>
 
       {/* ── 404 ── */}
       <Route path="*" element={<NotFoundPage />} />
-
     </Routes>
   );
 }
