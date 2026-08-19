@@ -21,3 +21,18 @@ export async function getCourts() {
   const response = await api.get('/courts');
   return response.data.data;
 }
+
+export async function createCourt(data) {
+  const response = await api.post('/courts', data);
+  return response.data.data;
+}
+
+export async function updateCourt(id, data) {
+  const response = await api.put(`/courts/${id}`, data);
+  return response.data.data;
+}
+
+export async function deleteCourt(id) {
+  const response = await api.delete(`/courts/${id}`);
+  return response.data.data;
+}
