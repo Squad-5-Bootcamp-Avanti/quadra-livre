@@ -1,5 +1,6 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useUI } from '../../contexts/UIContext';
 import Avatar from '../common/Avatar';
 import styles from './AdminSidebar.module.css';
 
@@ -11,7 +12,15 @@ const NAV_ITEMS = [
 ];
 
 export default function AdminSidebar() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const { addToast } = useUI();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    addToast('Você saiu da conta.', 'info');
+    navigate('/');
+  };
 
   return (
     <aside className={styles.sidebar}>
@@ -35,11 +44,21 @@ export default function AdminSidebar() {
       </nav>
 
       <div className={styles.footer}>
-        <Avatar name={user?.name} size="sm" />
-        <div className={styles.userInfo}>
-          <span className={styles.userName}>{user?.name}</span>
-          <span className={styles.userRole}>Administrador</span>
+        <div className={styles.userArea}>
+          <Avatar name={user?.name} size="sm" />
+          <div className={styles.userInfo}>
+            <span className={styles.userName}>{user?.name}</span>
+            <span className={styles.userRole}>Administrador</span>
+          </div>
         </div>
+        <button
+          type="button"
+          className={styles.logoutBtn}
+          onClick={handleLogout}
+          aria-label="Sair da conta"
+        >
+          Sair
+        </button>
       </div>
     </aside>
   );
