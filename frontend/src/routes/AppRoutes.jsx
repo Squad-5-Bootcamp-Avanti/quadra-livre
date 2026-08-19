@@ -12,7 +12,7 @@ import HomePage from "../pages/HomePage";
 import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
-// import ProfilePage       from '../pages/ProfilePage';
+import ProfilePage from "../pages/ProfilePage";
 // import CourtsPage        from '../pages/CourtsPage';
 // import CourtDetailPage   from '../pages/CourtDetailPage';
 // import ReservationsPage  from '../pages/ReservationsPage';
@@ -60,7 +60,7 @@ export default function AppRoutes() {
           path="perfil"
           element={
             <ProtectedRoute>
-              <Placeholder name="Perfil (Int. 2)" />
+              <ProfilePage />
             </ProtectedRoute>
           }
         />

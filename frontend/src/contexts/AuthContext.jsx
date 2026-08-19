@@ -37,6 +37,11 @@ export function AuthProvider({ children }) {
     return player;
   }, []);
 
+  const updateUser = useCallback((updatedPlayer) => {
+    localStorage.setItem('quadra_livre_user', JSON.stringify(updatedPlayer));
+    setUser(updatedPlayer);
+  }, []);
+
   const logout = useCallback(() => {
     localStorage.removeItem('quadra_livre_token');
     localStorage.removeItem('quadra_livre_user');
@@ -47,7 +52,7 @@ export function AuthProvider({ children }) {
   const isLogged = !!user;
 
   return (
-    <AuthContext.Provider value={{ user, loading, isAdmin, isLogged, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, isAdmin, isLogged, login, register, updateUser, logout }}>
       {children}
     </AuthContext.Provider>
   );

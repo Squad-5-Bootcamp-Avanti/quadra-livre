@@ -3,17 +3,14 @@ import styles from "./Benefits.module.css";
 
 const items = [
   {
-    icon: "⚡",
     title: "Reserva rápida",
     text: "Agende em poucos segundos, sem burocracia e sem ligação.",
   },
   {
-    icon: "✅",
     title: "Sem conflitos",
     text: "Validação automática de horários — nunca duas reservas na mesma quadra.",
   },
   {
-    icon: "📱",
     title: "Acesso fácil",
     text: "Reserve pelo celular, tablet ou computador, de onde estiver.",
   },
@@ -37,9 +34,6 @@ export default function Benefits() {
               role="group"
               aria-label={`${item.title}: ${item.text}`}
             >
-              <span className={styles.icon} aria-hidden="true">
-                {item.icon}
-              </span>
               <h3 className={styles.cardTitle}>{item.title}</h3>
               <p className={styles.cardText}>{item.text}</p>
             </div>
