@@ -95,7 +95,11 @@ export default function CourtDetailPage() {
     setFormErrors({});
 
     const errors = {};
-    const todayStr = new Date().toISOString().slice(0, 10); // "AAAA-MM-DD" atual
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const todayStr = `${year}-${month}-${day}`;
 
     // Validações Locais (Frontend)
     if (!date) errors.date = 'Selecione uma data.';
@@ -105,6 +109,16 @@ export default function CourtDetailPage() {
     if (!endTime) errors.endTime = 'Horário de término obrigatório.';
     else if (startTime >= endTime) {
       errors.endTime = 'O término deve ser após o horário de início.';
+    }
+
+    // Se a reserva for para hoje, garante que o horário de início não é no passado
+    if (date === todayStr && startTime) {
+      const currentHours = String(today.getHours()).padStart(2, '0');
+      const currentMinutes = String(today.getMinutes()).padStart(2, '0');
+      const currentTimeStr = `${currentHours}:${currentMinutes}`;
+      if (startTime < currentTimeStr) {
+        errors.startTime = 'O horário de início não pode ser no passado.';
+      }
     }
 
     if (Object.keys(errors).length) {
