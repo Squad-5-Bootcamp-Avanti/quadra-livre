@@ -11,8 +11,8 @@ import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import ProfilePage from "../pages/ProfilePage";
-// import CourtsPage from '../pages/CourtsPage';
-// import CourtDetailPage from '../pages/CourtDetailPage';
+import CourtsPage from "../pages/CourtsPage";
+import CourtDetailPage from "../pages/CourtDetailPage";
 // import ReservationsPage from '../pages/ReservationsPage';
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminUsersPage from "../pages/admin/AdminUsersPage";
@@ -36,14 +36,8 @@ export default function AppRoutes() {
       <Route element={<MainLayout />}>
         <Route index element={<LandingPage />} />
 
-        <Route
-          path="quadras"
-          element={<Placeholder name="Quadras (Int. 3)" />}
-        />
-        <Route
-          path="quadras/:id"
-          element={<Placeholder name="Detalhe da Quadra (Int. 3)" />}
-        />
+        <Route path="quadras" element={<CourtsPage />} />
+        <Route path="quadras/:id" element={<CourtDetailPage />} />
       </Route>
 
       {/* ── Rotas de autenticação ── */}
