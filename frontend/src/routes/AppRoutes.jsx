@@ -7,19 +7,6 @@ import NotFoundPage from '../pages/NotFoundPage';
 
 // Páginas — cada integrante cria a sua
 // Os imports abaixo serão descomentados conforme o time entrega
-<<<<<<< Updated upstream
-// import LandingPage       from '../pages/LandingPage';
-import LoginPage         from '../pages/LoginPage';
-import RegisterPage      from '../pages/RegisterPage';
-import ProfilePage       from '../pages/ProfilePage';
-// import CourtsPage        from '../pages/CourtsPage';
-// import CourtDetailPage   from '../pages/CourtDetailPage';
-// import ReservationsPage  from '../pages/ReservationsPage';
-import AdminDashboard    from '../pages/admin/AdminDashboard';
-import AdminUsersPage    from '../pages/admin/AdminUsersPage';
-import AdminCourtsPage   from '../pages/admin/AdminCourtsPage';
-import AdminReservations from '../pages/admin/AdminReservationsPage';
-=======
 import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
@@ -31,7 +18,6 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminUsersPage from "../pages/admin/AdminUsersPage";
 import AdminCourtsPage from "../pages/admin/AdminCourtsPage";
 import AdminReservations from "../pages/admin/AdminReservationsPage";
->>>>>>> Stashed changes
 
 // Placeholder temporário para rotas ainda não implementadas
 const Placeholder = ({ name }) => (
@@ -49,9 +35,9 @@ export default function AppRoutes() {
 
       {/* ── Rotas públicas com layout principal ── */}
       <Route element={<MainLayout />}>
-        <Route index element={<Placeholder name="Landing Page (Int. 6)" />} />
-        <Route path="quadras" element={<Placeholder name="Quadras (Int. 3)" />} />
-        <Route path="quadras/:id" element={<Placeholder name="Detalhe da Quadra (Int. 3)" />} />
+        <Route index element={<LandingPage />} />
+        <Route path="quadras" element={<CourtsPage />} />
+        <Route path="quadras/:id" element={<CourtDetailPage />} />
       </Route>
 
       {/* ── Rotas de autenticação ── */}
