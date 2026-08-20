@@ -21,11 +21,27 @@ function parseTimeOnly(timeString) {
 }
 
 function formatDateOnly(date) {
-  return date.toISOString().slice(0, 10);
+  if (!date) return '';
+  if (typeof date === 'string') {
+    return date.slice(0, 10);
+  }
+  try {
+    return date.toISOString().slice(0, 10);
+  } catch (e) {
+    return '';
+  }
 }
 
 function formatTimeOnly(date) {
-  return date.toISOString().slice(11, 16);
+  if (!date) return '';
+  if (typeof date === 'string') {
+    return date.slice(0, 5);
+  }
+  try {
+    return date.toISOString().slice(11, 16);
+  } catch (e) {
+    return '';
+  }
 }
 
 // ── Service ────────────────────────────────────────────────────
