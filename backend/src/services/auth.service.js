@@ -79,6 +79,10 @@ async function login(email, password) {
     throw ApiError.badRequest('E-mail ou senha inválidos.', 'INVALID_CREDENTIALS');
   }
 
+  if (!player.isActive) {
+    throw ApiError.forbidden('Conta desativada. Procure um administrador.', 'USER_INACTIVE');
+  }
+
   const token = generateToken(player);
 
   return { player: formatPlayer(player), token };

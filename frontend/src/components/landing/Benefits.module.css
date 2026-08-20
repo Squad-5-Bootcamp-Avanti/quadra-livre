@@ -1,0 +1,86 @@
+.benefits {
+  padding: var(--space-16) var(--space-6);
+  background: var(--color-bg);
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: var(--font-extrabold);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: var(--color-primary);
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-8);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-10) var(--space-8);
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  transform: translateY(24px);
+  cursor: default;
+  transition:
+    opacity var(--transition-slow),
+    transform var(--transition-slow),
+    box-shadow var(--transition-fast),
+    border-color var(--transition-fast),
+    outline var(--transition-fast);
+}
+
+.cardVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card:hover,
+.card:focus-visible {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-md);
+}
+
+.card:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-weight: var(--font-bold);
+  font-size: var(--text-2xl);
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+}
+
+.cardText {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  max-width: 280px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

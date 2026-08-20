@@ -1,0 +1,128 @@
+.contact {
+  padding: var(--space-16) var(--space-6);
+  background: var(--color-primary-dark);
+}
+
+.container {
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: var(--font-extrabold);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: var(--color-text-inverse);
+  margin-bottom: var(--space-2);
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: var(--space-10);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  text-align: left;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.field label {
+  font-family: var(--font-body);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-sm);
+  color: var(--color-accent-light);
+}
+
+.field input,
+.field textarea {
+  padding: var(--space-3) var(--space-4);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-md);
+  color: var(--color-text-inverse);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--color-accent-light);
+}
+
+.button {
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+  font-family: var(--font-body);
+  font-weight: var(--font-bold);
+  font-size: var(--text-base);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    transform var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  background: var(--color-accent-light);
+}
+
+.success {
+  font-family: var(--font-body);
+  color: var(--color-accent-light);
+  font-weight: var(--font-medium);
+  margin-top: var(--space-2);
+}
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: 2px solid var(--color-accent-light);
+  outline-offset: 2px;
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--color-accent-light);
+  outline-offset: 2px;
+}
+
+.success {
+  min-height: 1.2em; /* evita layout pulando quando o texto aparece */
+}
+.container {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--transition-slow),
+    transform var(--transition-slow);
+}
+
+.containerVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

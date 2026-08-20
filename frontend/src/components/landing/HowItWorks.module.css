@@ -1,0 +1,123 @@
+.howItWorks {
+  padding: var(--space-16) var(--space-6);
+  background: var(--color-bg-card);
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: var(--font-extrabold);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: var(--color-primary);
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-10);
+}
+
+.step {
+  position: relative;
+  text-align: center;
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  opacity: 0;
+  transform: translateY(20px);
+  cursor: default;
+  transition:
+    opacity var(--transition-slow),
+    transform var(--transition-slow),
+    background-color var(--transition-fast),
+    outline var(--transition-fast);
+}
+
+.stepVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.step:hover,
+.step:focus-visible {
+  background-color: var(--color-success-bg);
+}
+
+.step:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  font-family: var(--font-display);
+  font-weight: var(--font-bold);
+  font-size: var(--text-xl);
+  color: var(--color-text-inverse);
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-4);
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.step:hover .number,
+.step:focus-visible .number {
+  background: var(--color-accent);
+  transform: scale(1.08);
+}
+
+.stepTitle {
+  font-family: var(--font-body);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-lg);
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.stepText {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  max-width: 260px;
+  margin: 0 auto;
+}
+
+.connector {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .connector {
+    display: block;
+    position: absolute;
+    top: 28px;
+    left: calc(50% + 45px);
+    width: calc(100% - 90px);
+    height: 2px;
+    background: var(--color-border);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .step:hover .number,
+  .step:focus-visible .number {
+    transform: none;
+  }
+}
