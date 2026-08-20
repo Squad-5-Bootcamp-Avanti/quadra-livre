@@ -7,6 +7,7 @@ import NotFoundPage from '../pages/NotFoundPage';
 
 // Páginas — cada integrante cria a sua
 // Os imports abaixo serão descomentados conforme o time entrega
+<<<<<<< Updated upstream
 // import LandingPage       from '../pages/LandingPage';
 import LoginPage         from '../pages/LoginPage';
 import RegisterPage      from '../pages/RegisterPage';
@@ -18,6 +19,19 @@ import AdminDashboard    from '../pages/admin/AdminDashboard';
 import AdminUsersPage    from '../pages/admin/AdminUsersPage';
 import AdminCourtsPage   from '../pages/admin/AdminCourtsPage';
 import AdminReservations from '../pages/admin/AdminReservationsPage';
+=======
+import LandingPage from "../pages/LandingPage";
+import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/RegisterPage";
+import ProfilePage from "../pages/ProfilePage";
+import CourtsPage from "../pages/CourtsPage";
+import CourtDetailPage from "../pages/CourtDetailPage";
+import ReservationsPage from '../pages/ReservationsPage';
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import AdminUsersPage from "../pages/admin/AdminUsersPage";
+import AdminCourtsPage from "../pages/admin/AdminCourtsPage";
+import AdminReservations from "../pages/admin/AdminReservationsPage";
+>>>>>>> Stashed changes
 
 // Placeholder temporário para rotas ainda não implementadas
 const Placeholder = ({ name }) => (
@@ -60,7 +74,7 @@ export default function AppRoutes() {
           path="reservas"
           element={
             <ProtectedRoute>
-              <Placeholder name="Minhas Reservas (Int. 4)" />
+              <ReservationsPage />
             </ProtectedRoute>
           }
         />
