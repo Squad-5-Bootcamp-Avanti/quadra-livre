@@ -97,3 +97,62 @@
     padding: var(--space-6);
   }
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+}
+
+.timeRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.availabilitySection {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.availabilitySection h4 {
+  font-family: var(--font-body);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.availabilitySection p {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.availableText {
+  color: var(--color-success) !important;
+  font-weight: var(--font-medium);
+}
+
+.occupiedList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.occupiedList li {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-danger);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
