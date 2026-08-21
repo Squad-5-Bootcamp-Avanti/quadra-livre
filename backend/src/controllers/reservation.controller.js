@@ -31,6 +31,21 @@ const list = asyncHandler(async (req, res) => {
   });
 });
 
+// Consulta de disponibilidade: horários já ocupados de uma quadra numa
+// data. Diferente de `list`, aqui NÃO filtramos por jogador de propósito
+// — qualquer usuário autenticado precisa ver TODAS as reservas daquele
+// horário para saber se a quadra está livre, não só as próprias. Por
+// isso o service devolve apenas startTime/endTime, sem dados pessoais.
+const getAvailability = asyncHandler(async (req, res) => {
+  const { courtId, date } = req.query;
+  const slots = await reservationService.listOccupiedSlots({ courtId, date });
+
+  return success(res, {
+    data: slots,
+    message: 'Disponibilidade consultada com sucesso.',
+  });
+});
+
 const getById = asyncHandler(async (req, res) => {
   const reservation = await reservationService.getById(req.params.id);
 
@@ -82,6 +97,7 @@ const remove = asyncHandler(async (req, res) => {
 module.exports = {
   create,
   list,
+  getAvailability,
   getById,
   update,
   remove,

@@ -44,6 +44,15 @@ function formatTimeOnly(date) {
   }
 }
 
+// Combina data + horário (mesma convenção UTC usada acima) e verifica
+// se o instante resultante já ficou no passado em relação a agora.
+// Usado para impedir criação de reservas retroativas direto pela API,
+// já que o formulário do frontend só valida isso client-side.
+function isPastDateTime(dateString, timeString) {
+  const bookingMoment = new Date(`${dateString}T${timeString}:00.000Z`);
+  return bookingMoment.getTime() < Date.now();
+}
+
 // ── Service ────────────────────────────────────────────────────
 
 const reservationService = {
@@ -69,6 +78,32 @@ const reservationService = {
     };
   },
 
+  /**
+   * Lista apenas os horários já ocupados de uma quadra numa data —
+   * usado pela tela de disponibilidade em tempo real (CourtDetailPage).
+   * Propositalmente NÃO filtra por jogador (precisa enxergar reservas
+   * de todos os usuários para mostrar a disponibilidade real) e NÃO
+   * expõe nenhum dado pessoal de quem reservou (sem incluir `player`),
+   * para não vazar PII de outros usuários pela consulta de disponibilidade.
+   */
+  listOccupiedSlots: async ({ courtId, date }) => {
+    if (!courtId || !date) {
+      throw ApiError.badRequest(
+        'courtId e date são obrigatórios para consultar disponibilidade.',
+        'MISSING_FIELDS'
+      );
+    }
+
+    const parsedDate = parseDateOnly(date);
+    const slots = await reservationRepository.findOccupiedSlots({ courtId, date: parsedDate });
+
+    return slots.map((slot) => ({
+      id: slot.id,
+      startTime: formatTimeOnly(slot.startTime),
+      endTime: formatTimeOnly(slot.endTime),
+    }));
+  },
+
   getById: async (id) => {
     const reservation = await reservationRepository.findById(id);
     if (!reservation) {
@@ -84,6 +119,13 @@ const reservationService = {
       throw ApiError.badRequest(
         'O horário de início deve ser anterior ao horário de fim.',
         'INVALID_TIME_RANGE'
+      );
+    }
+
+    if (isPastDateTime(date, startTime)) {
+      throw ApiError.badRequest(
+        'Não é possível criar uma reserva em uma data/horário que já passou.',
+        'PAST_DATE_TIME'
       );
     }
 

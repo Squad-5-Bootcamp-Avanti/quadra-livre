@@ -74,6 +74,18 @@ async function findConflicts({ courtId, date, startTime, endTime, excludeId }) {
   });
 }
 
+// Usado pela consulta de disponibilidade (GET /reservations/availability).
+// Retorna só os horários ocupados de uma quadra numa data, sem incluir
+// `player` — evita expor nome/e-mail/telefone de outros usuários para
+// quem está apenas checando se um horário está livre.
+async function findOccupiedSlots({ courtId, date }) {
+  return prisma.reservation.findMany({
+    where: { courtId, date },
+    select: { id: true, startTime: true, endTime: true },
+    orderBy: { startTime: "asc" },
+  });
+}
+
 module.exports = {
   create,
   findAll,
@@ -82,4 +94,5 @@ module.exports = {
   update,
   remove: deleteReservation,
   findConflicts,
+  findOccupiedSlots,
 };

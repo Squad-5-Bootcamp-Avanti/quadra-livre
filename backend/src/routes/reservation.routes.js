@@ -14,6 +14,12 @@ const reservationValidation = [
   body('endTime').notEmpty().withMessage('O horário final é obrigatório.'),
 ];
 
+// Consulta de disponibilidade (horários ocupados de uma quadra numa data).
+// Precisa vir ANTES de '/:id', senão o Express trataria "availability"
+// como se fosse um :id. Qualquer usuário autenticado pode consultar —
+// não filtra por jogador nem expõe dados pessoais (ver controller).
+router.get('/availability', authenticate, reservationController.getAvailability);
+
 // ADMIN vê todas as reservas — JOGADOR vê apenas as suas (lógica no controller)
 router.get('/', authenticate, reservationController.list);
 router.get('/:id', authenticate, reservationController.getById);
