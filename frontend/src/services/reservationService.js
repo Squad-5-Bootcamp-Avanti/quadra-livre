@@ -29,3 +29,16 @@ export async function cancelReservation(id) {
   const response = await api.delete(`/reservations/${id}`);
   return response.data.data;
 }
+
+/**
+ * 4. Consultar os horários já ocupados de uma quadra numa data.
+ * Diferente de getReservations(), este endpoint mostra os horários
+ * ocupados por TODOS os jogadores (não só os meus) — é o que a tela
+ * de disponibilidade em tempo real precisa para funcionar direito —
+ * mas devolve só startTime/endTime, sem nenhum dado pessoal de quem
+ * fez a reserva.
+ */
+export async function getCourtAvailability({ courtId, date }) {
+  const response = await api.get('/reservations/availability', { params: { courtId, date } });
+  return response.data.data;
+}
