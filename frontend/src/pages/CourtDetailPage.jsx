@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom'; 
 import { getCourtById } from '../services/courtService';
-import { createReservation, getReservations } from '../services/reservationService'; 
+import { createReservation, getCourtAvailability } from '../services/reservationService'; 
 import { SPORT_LABELS } from '../constants/sports';
 import { useAuth } from '../contexts/AuthContext'; 
 import { useUI } from '../contexts/UIContext'; 
@@ -47,7 +47,10 @@ export default function CourtDetailPage() {
     async function checkAvailability() {
       setLoadingOccupied(true);
       try {
-        const data = await getReservations({ courtId: id, date });
+        // Usa o endpoint dedicado de disponibilidade: mostra os horários
+        // ocupados por TODOS os jogadores (não só os do usuário logado)
+        // e não expõe dados pessoais de quem reservou.
+        const data = await getCourtAvailability({ courtId: id, date });
         setOccupiedReservations(data);
       } catch (err) {
         console.error('Erro ao verificar horários ocupados:', err);
@@ -89,10 +92,29 @@ export default function CourtDetailPage() {
     };
   }, [id]);
 
-  // 3. Função para enviar a nova reserva ao servidor
+  // 3. Abre o modal de reserva — exige usuário logado.
+  function handleOpenBooking() {
+    if (!user) {
+      addToast('Faça login para reservar uma quadra.', 'info');
+      navigate('/login');
+      return;
+    }
+    setIsModalOpen(true);
+  }
+
+  // 4. Função para enviar a nova reserva ao servidor
   async function handleBookingSubmit(event) {
     event.preventDefault();
     setFormErrors({});
+
+    // Defesa extra: se a sessão expirou enquanto o modal estava aberto,
+    // não deixa tentar enviar sem usuário (evita crash em user.id abaixo).
+    if (!user) {
+      addToast('Sua sessão expirou. Faça login novamente.', 'danger');
+      setIsModalOpen(false);
+      navigate('/login');
+      return;
+    }
 
     const errors = {};
     const today = new Date();
@@ -158,7 +180,7 @@ export default function CourtDetailPage() {
     }
   }
 
-  // 4. Verificações de telas de carregamento/erro (devem vir antes do return principal)
+  // 5. Verificações de telas de carregamento/erro (devem vir antes do return principal)
   if (loading) {
     return <Loading fullScreen text="Carregando quadra..." />;
   }
@@ -185,7 +207,7 @@ export default function CourtDetailPage() {
     );
   }
 
-  // 5. Renderização da interface (o HTML/JSX)
+  // 6. Renderização da interface (o HTML/JSX)
   return (
     <div className={styles.page}>
       <Link to="/quadras" className={styles.back}>
@@ -204,7 +226,7 @@ export default function CourtDetailPage() {
 
         {/* Substituído o link por um botão de ação com o design do CTA */}
         <div className={styles.actions}>
-          <Button onClick={() => setIsModalOpen(true)} className={styles.cta}>
+          <Button onClick={handleOpenBooking} className={styles.cta}>
             Reservar esta quadra
           </Button>
         </div>
