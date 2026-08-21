@@ -41,6 +41,15 @@ export default function AdminSidebar() {
             <span>{label}</span>
           </NavLink>
         ))}
+
+        <NavLink
+          to="/"
+          end
+          className={styles.backLink}
+        >
+          <span className={styles.navIcon}>↩️</span>
+          <span>Voltar ao site</span>
+        </NavLink>
       </nav>
 
       <div className={styles.footer}>
